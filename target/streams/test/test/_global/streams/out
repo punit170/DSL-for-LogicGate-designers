@@ -1,0 +1,66 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(LanguageTest, org.scalatest.tools.Framework$$anon$1@12e76ba6, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mLanguageTest:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mMy first language for set theory operations![0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Assign and test the NOT gate evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Assign and test the OR gate evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Assign and test the AND gate evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Assign and test the NOR gate evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Assign and test the NAND gate evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Assign and test the XOR gate evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Assign and test the XNOR gate evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should abide by the De Morgan's law[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should create a logic gate named logicGate3[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should change a gate bound to name LogicGate4[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should create inputs for logicGate5[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should obey the ShefferStroke's axiom[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should obey the Edward Vermilye Huntington's axiom[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should obey the Meredith's ShefferStroke axiom[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should obey the 1-basis axiom[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error for an Undefined Logic Gate being evaluated[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error for assigning an Input outside Scope of some defined LogicGate[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should create a class named Class1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should set fields (X,Y) and method(m1,m2) of Class2 as Public[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should create an object named c1 of Class3 and invoke constructor to assign new field values[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Invoke method m1 of object c1 and return last expression value = param x's value passed[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Invoke field public X, protected Y and throw error on invoking field private Z of object c1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should extend parentClass and call method in parentClass from childclass object[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should call method in parentClass's parentClass A from object of class C[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should access field of parent class in function of childclass[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should call overrided function of child class when object of parent class is assigned to object of child class[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should call obj1 function method when obj2  is substituted with obj1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should create an abstract class named absClass1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error for defining an abstract class without any abstract method[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should extend abstract Class absClass2 from a concrete class absChildClass2, call method in absClass2 , call overridden abstract method of absClass2, Invoke Filed Y from absChildClass2 object[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should extend an abstract class absClass4 from abstract class absClass3, extend a concrete class absChildClass 4 from absClass 4, invoke abstract methods from absChildClass object[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should create an interface class named myInterface1[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error for implementing an interface without overriding all its functions[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error for implementing an interface by another interface, extending a class from an interface, extending an interface from a class[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should call overridden methods of interface myInterface4 and its super interface myInterface5 from object of class iClass3 that implements myInterface4[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Invoke Interface constant field from class object that implements Interface if that field does not exist in the class[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should call overridden abstract method f3 in base class that extends an abstract class which inturn implements an interface[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error when trying to implement an interface by another interface[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error if cyclic inheritance exists[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should implement two or more different interfaces that declare methods with exactly the same signatures by a concrete class[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should allow an abstract class that inherit from another abstract class and implement interfaces where all interfaces and the abstract class have methods with the same signatures[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should allow an abstract class to inherit from a concrete class[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should check condition for IF and run the thenClause[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should check condition for IF and run the elseClause[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should create an exception class and Handle exception construct with only its try block running[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an error for handling an exception of a non-existing exception class[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should Handle an exception with error thrown in the try block, reason printed, and catch block executed[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should handle nested try and catch blocks and run catch block for ExceptionClass4[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should partially evaluate a simple expression if no inputs are given[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should completely evaluate a partially evaluated simple expression when all its inputs are provided[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should completely evaluate a partially evaluated complex expression when all its inputs are provided[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should use monadic function MAP() to simplify a given expression[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should use monadic function MAP() to simplify a very complex expression[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should partially evaluate an IF block in the case the condition passed to the IF block partially evaluates[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should completely evaluate a partially evaluated IF expression when all its condition are provided[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should throw an exception if TestGate is used to compare evaluation of some logicgate to a boolean value, which can only be evaluated partially[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 591 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 56[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 56, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	LanguageTest[0m
