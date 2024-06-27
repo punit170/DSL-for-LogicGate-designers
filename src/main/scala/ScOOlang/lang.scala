@@ -2,10 +2,8 @@ package ScOOlang
 
 import ScOOlang.lang.constructs.LogicGate
 
-import scala.collection.immutable
-import scala.collection.mutable
+import scala.collection.{immutable, mutable}
 import scala.collection.mutable.{ListBuffer, Map, Stack}
-//import scala.util.control
 
 
 object lang:
@@ -166,6 +164,7 @@ object lang:
                     case bv: Boolean => bv
                     case _ => lg
                   }
+                case _ => this  
               }
         else
           this
@@ -235,7 +234,7 @@ object lang:
           case varGate: Input =>
             if logicGateStack.nonEmpty then
 
-              val inputValPair: (Value|LogicGate|Null) = {
+              val inputValPair: Value|LogicGate|Null = {
                 gate match{
                   case v: Value => v
                   case lg: LogicGate => lg
@@ -243,7 +242,7 @@ object lang:
                     val gateEval = gate.eval
                     gateEval match{
                       case boolVal: Boolean => Value(boolVal)
-                      null
+                      case _ => null
                     }
                 }
               }
@@ -1027,63 +1026,17 @@ object lang:
   // to get input variable value for a defined logic gate
   def getInputVal(logicName: String, varName: String): Boolean = {
     if EnvironmentTableMap.contains(logicName) then
-      val fetchedInputValue = EnvironmentTableMap(logicName).getOrElse(varName, throw new Exception("Variable does not exist!")) match{
+      EnvironmentTableMap(logicName).getOrElse(varName, throw new Exception("Variable does not exist!")) match{
         case constructs.Value(boolVal) => boolVal
-        case _ => throw new Exception(s"Undefined inputs for input $logicName-$varName!")
+        case lg: LogicGate =>
+          val gateEval = lg.eval
+          gateEval match{
+            case b: Boolean => b
+            case _ => throw new Exception(s"Input var $varName of $logicName does not evaluate to a Boolean value! ")
+          }
+        case _ => throw new Exception(s"Input var $varName of $logicName does not evaluate to a Boolean value! ")
       }
-      fetchedInputValue
+
     else
       throw new Exception("Input value invocation for an undefined logic Gate")
   }
-
-  //main function
-  /*@main def runBooleanLanguage: Any =
-    import LogicGates.*
-
-    println(GateTable)
-
-    println(ExceptionClassTable)
-
-    println(ExceptionMap)
-
-    println(ImplementsTable)
-
-    println(InterfaceMap)
-
-    for (i <- EnvironmentTableMap)
-      println(i)
-
-    for (i <- VirtualDispatchTable)
-      println(i)
-
-    for(i <- ClassMap)
-      println(i)
-
-    for (i <- ObjectMap)
-      for(j <- ObjectMap(i._1))
-        println(j)
-
-    println()
-    println("PUBLIC:")
-    for(i <- publicMap)
-      for(j <- publicMap(i._1))
-        print(i._1)
-        print(":")
-        println(j)
-
-    println()
-    println("PRIVATE:")
-    for (i <- privateMap)
-      for (j <- privateMap(i._1))
-        print(i._1)
-        print(":")
-        println(j)
-
-    println()
-    println("PROTECTED:")
-    for (i <- protectedMap)
-      for (j <- protectedMap(i._1))
-        print(i._1)
-        print(":")
-        println(j)
-  */
