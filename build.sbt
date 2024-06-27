@@ -3,8 +3,10 @@ ThisBuild / scalaVersion := "3.2.1"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "HW5"
+    name := "ScOOlang"
   )
 
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.13"
+val jarName = "ScOOlang.jar"
+assembly/assemblyJarName := jarName
+
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.13" % "test"
