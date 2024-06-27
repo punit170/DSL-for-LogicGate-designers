@@ -3,8 +3,6 @@ package ScOOlang
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-//import ScOOlang.main.*
-//import ScOOlang.main.LogicGates.*
 import lang.*
 import lang.constructs.*
 import scala.collection.immutable.List

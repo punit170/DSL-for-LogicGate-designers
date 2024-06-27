@@ -1,5 +1,7 @@
 package ScOOlang
 
+import ScOOlang.lang.constructs.LogicGate
+
 import scala.collection.immutable
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map, Stack}
@@ -12,7 +14,7 @@ object lang:
 
   //Table to store bindings of logicGateName variables to their respective scope declarations. Scopes are in turn represented by a Map, binding input variables to boolean values
   //Also stores bindings of parameter passed to a method of a class with key = ("className" + "methodName")
-  private[ScOOlang] val EnvironmentTableMap: mutable.Map[String, mutable.Map[String, Boolean]] = mutable.Map[String, mutable.Map[String, Boolean]]()
+  private[ScOOlang] val EnvironmentTableMap: mutable.Map[String, mutable.Map[String, constructs]] = mutable.Map[String, mutable.Map[String, constructs]]()
 
   // to store transformer functions applied to MAP() and keep track of transformer function in the current scope
   private[ScOOlang] val monadicFuncStack: mutable.Stack[constructs => constructs] = mutable.Stack[constructs => constructs]()
@@ -155,12 +157,16 @@ object lang:
     def eval: Boolean | constructs = this match
       //Fetches input variable for some defined logic gate value from EnvironmentTable
       case Input(iName) =>
-        if logicGateStack.nonEmpty then
-          if EnvironmentTableMap.contains(logicGateStack.top) then
-            val currBindingsMap = EnvironmentTableMap(logicGateStack.top)
-            currBindingsMap.getOrElse(iName, this)
-          else
-            this
+        if logicGateStack.nonEmpty && EnvironmentTableMap.contains(logicGateStack.top) && EnvironmentTableMap(logicGateStack.top).contains(iName) then
+          EnvironmentTableMap(logicGateStack.top)(iName) match {
+                case Value(v) => v
+                case lg: LogicGate =>
+                  val gateEval = lg.eval
+                  gateEval match {
+                    case bv: Boolean => bv
+                    case _ => lg
+                  }
+              }
         else
           this
       /*throw new Exception("No bindings exist!")*/
@@ -228,24 +234,34 @@ object lang:
           // creating a input variable for the current logic gate if first argument is Input type
           case varGate: Input =>
             if logicGateStack.nonEmpty then
-              val tempLogicName = logicGateStack.top
-              if EnvironmentTableMap.contains(tempLogicName) then
-                val tempMap: mutable.Map[String, Boolean] = EnvironmentTableMap(tempLogicName)
-                val gateEval = gate.eval
-                gateEval match
-                  case v: Boolean =>
-                    tempMap += varGate.evalName -> v
-                    EnvironmentTableMap -= tempLogicName
-                    EnvironmentTableMap += tempLogicName -> tempMap
+
+              val inputValPair: (Value|LogicGate|Null) = {
+                gate match{
+                  case v: Value => v
+                  case lg: LogicGate => lg
                   case _ =>
-              else
-                val tempMap: mutable.Map[String, Boolean] = mutable.Map[String, Boolean]()
-                val gateEval = gate.eval
-                gateEval match
-                  case v: Boolean =>
-                    tempMap += s -> v
-                  case _ =>
-                EnvironmentTableMap += tempLogicName -> tempMap
+                    val gateEval = gate.eval
+                    gateEval match{
+                      case boolVal: Boolean => Value(boolVal)
+                      null
+                    }
+                }
+              }
+
+              if inputValPair != null then
+                val tempLogicName = logicGateStack.top
+                if EnvironmentTableMap.contains(tempLogicName) then
+                  val tempMap: mutable.Map[String, constructs] = EnvironmentTableMap(tempLogicName)
+
+                  tempMap += varGate.evalName -> inputValPair
+                  EnvironmentTableMap -= tempLogicName
+                  EnvironmentTableMap += tempLogicName -> tempMap
+
+                else
+                  val tempMap: mutable.Map[String, constructs] = mutable.Map[String, constructs]()
+
+                  tempMap += s -> inputValPair
+                  EnvironmentTableMap += tempLogicName -> tempMap
 
             else
               throw new Exception("Input assignment must be done within a scope of some logic gate!")
@@ -1007,10 +1023,15 @@ object lang:
         else
           false
       case _ => throw new Exception("LogicGate evaluated only partially!")
+
   // to get input variable value for a defined logic gate
   def getInputVal(logicName: String, varName: String): Boolean = {
     if EnvironmentTableMap.contains(logicName) then
-      EnvironmentTableMap(logicName).getOrElse(varName, throw new Exception("Variable does not exist!"))
+      val fetchedInputValue = EnvironmentTableMap(logicName).getOrElse(varName, throw new Exception("Variable does not exist!")) match{
+        case constructs.Value(boolVal) => boolVal
+        case _ => throw new Exception(s"Undefined inputs for input $logicName-$varName!")
+      }
+      fetchedInputValue
     else
       throw new Exception("Input value invocation for an undefined logic Gate")
   }
