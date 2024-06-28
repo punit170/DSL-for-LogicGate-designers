@@ -250,7 +250,7 @@ class LanguageTest extends AnyFlatSpec with Matchers {
   }
   //#32
   it should "create an interface class named myInterface1" in {
-    InterfaceDef("myInterface1", List(ConstantField("X")), List(Assign(ConstantField("X"), Value(true))),List(AbstractMethod("f1"))).eval
+      InterfaceDef("myInterface1", List(ConstantField("X")), List(Assign(ConstantField("X"), Value(true))),List(AbstractMethod("f1"))).eval
     InterfaceMap.contains("myInterface1") shouldBe true
   }
   //#33

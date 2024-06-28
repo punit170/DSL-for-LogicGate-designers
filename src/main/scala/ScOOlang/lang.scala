@@ -108,7 +108,7 @@ object lang:
     case Private(className: String, fieldNameList: List[String], methodNameList: List[String])
     case Protected(className: String, fieldNameList: List[String], methodNameList: List[String])
 
-    // data type to change binding of an already created object. obj1: new Object, obj2: object whose binding is to be changed
+    // data type to change binding of an already created object. obj2: new Object, obj1: object whose binding is to be changed
     // either both objects should be of the same class type OR class type of obj1 should be a subtype of obj2
     case SubstituteObject(obj1: Variable, obj2: Variable)
 
@@ -164,7 +164,7 @@ object lang:
                     case bv: Boolean => bv
                     case _ => lg
                   }
-                case _ => this  
+                case _ => this
               }
         else
           this

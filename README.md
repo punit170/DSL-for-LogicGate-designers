@@ -1,429 +1,1198 @@
-# Project Title: DSL-Boolean-Gates
-# Project Description: 
-This is a domain-specific language implementation for creating and evaluating expressions to implement logic gates (both simple and complex) and creating user-defined classes and their objects. This DSL supports constructs for creating and evaluating boolean gates, classes (with Fields, Constructors, and Methods), Access Modifiers, Objects, Multi-level inheritance, Substitutiviy, abstract classes, interfaces, IF-condition, exception handling, and partial evaluations. This project is built using Scala(version 3.2.0), an object-oriented and functional programming language. 
+# ScOOlang - SCala based Object-Oriented dsL for logic designers
+
+## Overview
+
+ScOOlang is a domain-specific language designed specifically for logic gate designers. Initially, this project aimed to explore the inner workings of language constructs and their implementation, particularly in the context of logical expressions commonly used by hardware designers. As the project evolved, its focus shifted to creating a DSL that simplifies the creation and evaluation of complex boolean expressions, enhanced with advanced object-oriented features.
+
+## Built With
+
+- **Scala 3.2.1** - The programming language used for developing ScOOlang.
+- **ScalaTest 3.2.13** - A testing framework for Scala applications.
+- **Sbt** - The build tool used for managing dependencies and project tasks.
+- **IntelliJ IDEA** - An integrated development environment (IDE) for Scala.
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- **JDK 1.8 or above** - Java Development Kit is required for running Scala.
+- **Scala 3.2.1 or above** - Ensure you have the appropriate version of Scala installed.
+
+## How to Install
+
+Follow these steps to install ScOOlang in your Scala project:
+
+1. **Download the JAR file:**
+    - Download the `ScOOlang.jar` file from the `jar file- (download)` folder.
+
+2. **Add the JAR file as a dependency to your Scala project:**
+
+   a. **If you are using sbt:**
+    1. Create a folder named `lib` in the base directory of your project.
+    2. Move `ScOOlang.jar` inside the `lib` folder.
+    3. In your `build.sbt` file, add the following line:
+       ```scala
+       Compile / unmanagedJars += baseDirectory.value / "lib" / "ScOOlang.jar"
+       ```
+
+   b. **If you are not using sbt and only using an IDE (e.g., IntelliJ):**
+    - Manually add the `ScOOlang.jar` file as a dependency to your project.
+
+3. **(Re)build your project.**
+
+4. **Import ScOOlang constructs:**
+    - Add the following import statement to your Scala files where you want to use ScOOlang constructs:
+      ```scala
+      import ScOOlang.lang.constructs._
+      ```
+
+## ScOOlang Constructs
+
+ScOOlang offers a comprehensive set of constructs for logic gate designers and object-oriented programming. Below is the complete list of constructs available in ScOOlang:
+
+<details>
+<summary>Click to expand list of ScOOlang Constructs</summary>
+
+- Value
+- NOT
+- AND
+- OR
+- NAND
+- NOR
+- XOR
+- XNOR
+- LogicGate
+- Assign
+- Input
+- Scope
+- TestGate
+- getInputVal
+- ClassDef
+- Field
+- Constructor
+- Method
+- NewObject
+- Variable
+- Public
+- Private
+- AbstractClassDef
+- AbstractMethod
+- InterfaceDef
+- ConstantField
+- Extend
+- ClassName
+- InterfaceName
+- Implements
+- SubstituteObject
+- IF
+- CheckEqual
+- thenClause
+- elseClause
+- ExceptionClassDef
+- ThrowException
+- HandleException
+- Try
+- Catch
+- Map
+
+</details>
+
+###  ScOOlang's language specific constructs:
+
+This sub-section will contain explanations and usage examples for various ScOOlang constructs. Specific constructs can be imported as follows:
 
-# How to install and run the project
-Requirements: [Java Development Toolkit (JDK)](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) and [Simple Build Toolkit (SBT)](https://www.scala-sbt.org/1.x/docs/index.html)
+```
+import ScOOlang.lang._constructName_
+```
 
-Installation of SBT: (for Windows)
--Install JDK 8 or 11;
--Download [MSI Installer](https://www.scala-sbt.org/1.x/docs/Installing-sbt-on-Windows.html);
+#### NOT
 
-How to run the Project:
-1. From the command prompt, navigate to the project directory (use the cd command to change the directory)
-2. Start the SBT shell: $sbt
-3. Compile the main directory scala code: SBT: project> compile
-4. Run the project: SBT: project> run
-5. To run scala tests: SBT: project> test
-(TO get help SBT: project> help)
+###### Description
+The `NOT` construct in ScOOlang represents a NOT gate. It takes one parameter, which should be another ScOOlang construct.
+
+```scala
+// Example usage in Scala code
+val g1 = NOT(Value(false))
+
+// Evaluation of g1 can be achieved using the `.eval` method on it.
+// E.g., g1.eval will result in true (boolean type).
+g1.eval
+```
+---
+
+#### AND, OR, NAND, NOR, XOR, XNOR
+
+###### Description
+The constructs `AND`, `OR`, `NAND`, `NOR`, `XOR`, and `XNOR` in ScOOlang are used to create corresponding logic gates. Each of these constructs takes two parameters, which should be other ScOOlang constructs representing boolean values. Their execution results in applying the boolean operation as per their names and returns a Boolean value.
+
+```scala
+// Example usage in Scala code
+val andResult = AND(Value(true), Value(false))
+val orResult = OR(Value(true), Value(false))
+val nandResult = NAND(Value(true), Value(false))
+val norResult = NOR(Value(true), Value(false))
+val xorResult = XOR(Value(true), Value(false))
+val xnorResult = XNOR(Value(true), Value(false))
+
+// Example of a complex logic expression combining these gates
+val complexExpression = AND(
+  OR(Value(true), NOT(Value(false))),
+  XOR(Value(true), Value(false))
+)
+
+// Evaluation of complexExpression
+complexExpression.eval
+```
+
+---
+
+#### LogicGate
+
+###### Construct Definition
+The `LogicGate` construct in ScOOlang is used to declare logic expression variables. It takes a `logicVarName` parameter of type `String`.
+
+```scala
+// Example usage in Scala code
+// To declare and define a logic expression (or logic gates) that is a nested and-or gate
+Assign(LogicGate("AndOrGate1"), OR(Input("A"), AND(Input("B"), Input("C"))).eval
+
+// To evaluate a LogicGate
+LogicGate("AndOrGate1").eval
+```
+
+The `Assign` code line above creates a logic gate variable named "AndOrGate1" and assigns it the logic expression `OR(Input("A"), AND(Input("B"), Input("C")))`, which requires three inputs: 'A', 'B', and 'C'.
+
+It is required for a `LogicGate` to be assigned a logic expression using the Assign construct before it can be evaluated. A declared `LogicGate` construct that is undefined (i.e., hasn’t been assigned a logic expression yet) will throw an error when evaluated.
+
+```scala
+// Example of an error when evaluating an undefined LogicGate
+val myLogicGate = LogicGate("g1")
+myLogicGate.eval  // This will generate an error
+```
+
+---
+
+#### Assign
+
+###### Description
+The `Assign` construct in ScOOlang is responsible for binding variables and values. It can be used to create bindings for various ScOOlang constructs:
+
+a. **LogicGate construct:**
+- `Assign` can bind a `LogicGate` to a ScOOlang-based logical expression.
+
+  For e.g.,
+   ```scala
+   // Example usage in Scala code
+   Assign(LogicGate("OrGate1"), OR(Input("A"), Input("B"))).eval
+   ```
+b. **Input construct:**
+- `Assign` can bind/assign the `Input` of a `LogicGate` to a `Value`, an immediately evaluatable logic expression, or another `LogicGate`.
+
+  For e.g.,
+   ```scala 
+   // Example usage in Scala code
+   Assign(LogicGate("OrGate1"), OR(Input("A"), Input("B"))).eval
+   Scope(
+       LogicGate("OrGate1"),
+       List(Assign(Input("A"), Value(false))),
+       Assign(Input("B"), Value(true))
+   ).eval
+   ```
+
+c. **Field construct:**
+- `Assign` can bind/assign a `Field` construct, which belongs to a class or an object, to a `Value`, or an immediately evaluatable logic expression.
+
+  For e.g.,
+   ```scala
+   // Example usage in Scala code
+   ClassDef(
+       "Class1",
+       List(Field("X"), Field("Y")),
+       Constructor(
+           List(
+               Assign(Field("X"), Value(false)),
+               Assign(Field("Y"), Value(true))
+           )
+       ),
+       List(
+           Method("m1",
+               List(
+                   Assign(Field("X"), NOT(Field("X"))),
+                   Input("x")
+               ),
+               List(
+                   Assign(Input("x"), Value(false))
+               )
+           ),
+           Method("m2",
+               List(
+                   AND(Field("X"), Field("Y"))
+               ),
+               List(
+                   Assign(Input("y"), Value(true))
+               )
+           )
+       )
+   ).eval
+   ```
+
+    + Note: Check more about unknown constructs in the ClassDef section.
+
+d. **ConstantField construct:**
+- `Assign` can bind/assign a `ConstantField` construct, which belongs to an interface, to a `Value`.
+
+  For e.g.,
+   ```scala
+   // Example usage in Scala code
+   InterfaceDef(
+       "myInterface1",
+       List(ConstantField("X")),
+       List(
+           Assign(ConstantField("X"), Value(true))
+       ),
+       List(AbstractMethod("f1"))
+   ).eval
+   ```   
+  Note: Check more about unknown constructs in the InterfaceDef section.
+
+---
+
+#### Input
+
+###### Description
+The `Input` construct in ScOOlang is used to provide inputs to define a `LogicGate` expression.
+
+```scala
+// Example usage in Scala code
+// This code creates a LogicGate named AndGate and binds it to an AND construct which takes 2 inputs- Input 'A' and Input 'B' 
+val g = Assign(LogicGate("AndGate"), AND(Input("A"), Input("B")))
+g.eval
+
+// To assign value to Input
+Scope(
+    LogicGate("AndGate"),
+    List(
+        Assign(Input("A"), Value(true)),
+        Assign(Input("B"), Value(false))
+    )
+).eval
+```
+
++ It is required that while using `Input` in a logical expression, it should be associated with a `LogicGate`. This ensures that similarly named inputs can be defined for different `LogicGate`s. It also allows for changing these input signals as required during the flow of the code.
+
+```scala
+// Example usage in Scala code
+// 2 LogicGates named bound to AND constructs which both take 2 inputs- Input 'A' and Input 'B' 
+val g1 = Assign(LogicGate("AndGate1"), AND(Input("A"), Input("B")))
+val g2 = Assign(LogicGate("AndGate2"), AND(Input("A"), Input("B")))
+g1.eval
+g2.eval
+
+Scope(
+    LogicGate("AndGate1"),
+    List(
+        Assign(Input("A"), Value(true)),
+        Assign(Input("B"), Value(false))
+    )
+).eval
+
+Scope(
+    LogicGate("AndGate2"),
+    List(
+        Assign(Input("A"), Value(true)),
+        Assign(Input("B"), LogicGate("AndGate1"))
+    )
+).eval
+```
+
++ See Scope to understand more about the above example.
+
+---
+
+#### Scope
+
+###### Description
+The `Scope` construct in ScOOlang allows for assigning multiple input fields for one `LogicGate` or for multiple logic gates at once.
+
+definition: `Scope(gate: LogicGate, exprs: List[constructs])`
+
+```scala
+// Example 1: Assigning Input fields for a single LogicGate
+val g = Assign(LogicGate("AndGate"), AND(Input("A"), Input("B")))
+g.eval
+Scope(
+    LogicGate("AndGate"),
+    List(
+        Assign(Input("A"), Value(true)),
+        Assign(Input("B"), Value(false))
+    )
+).eval
+
+
+// Example 2: Assigning Input fields for multiple LogicGates
+val g1 = Assign(LogicGate("AndGate1"), AND(Input("A"), Input("B")))
+val g2 = Assign(LogicGate("AndGate2"), AND(Input("A"), Input("B")))
+g1.eval
+g2.eval
+Scope(
+  LogicGate("AndGate1"),
+  List(
+    Assign(Input("A"), Value(true)),
+    Assign(Input("B"), Value(false)),
+    Scope(
+      LogicGate("AndGate2"),
+      List(
+        Assign(Input("A"), Value(true)),
+        Assign(Input("B"), LogicGate("AndGate1"))
+      )
+    )
+  )
+).eval
+
+```
++ Unlike scopes in general-purpose programming languages, ScOOlang's Scope does not define a start and end to a scope block.
++ Instead, it allows for nesting and managing the assignment of inputs across multiple LogicGates dynamically during evaluation.
+
+---
+
+#### TestGate
+
+###### Description
+The `TestGate()` construct in ScOOlang is used to check if a `LogicGate` evaluates to a particular boolean value or not.
+
+Signature: `TestGate(gateName: String, checkVal: Boolean): Boolean`
+
+For e.g.,
+```scala
+// TestGate should result true for the below code  
+Assign(LogicGate("NotGate"), NOT(Value(true))).eval
+TestGate("NotGate", false)
+```
+
+`TestGate` is a method itself and does not require invoking any additional method like .eval. It directly checks whether the LogicGate named NotGate evaluates to false.
+
+---
+
+#### getInputVal()
+
+###### Description
+The `getInputVal()` method in ScOOlang is used to fetch/get input values associated with a `LogicGate`, provided that the input value can be evaluated to a Boolean value.
+
+###### Signature:
+`getInputVal(logicName: String, varName: String): Boolean`
+
+###### Example
+```scala
+// Example usage in Scala code
+// Assigning Input fields for a single LogicGate
+val g = Assign(LogicGate("AndGate"), AND(Input("A"), Input("B")))
+g.eval
+
+val A = getInputVal("AndGate", "A")
+```
+
++ In the example above, `getInputVal("AndGate", "A")` fetches the current Boolean value associated with the input variable "A" of the `LogicGate` named "AndGate". This method is useful for retrieving and using the current state of input variables within logical expressions.
+
+---
+
+#### ClassDef, Field, Constructor
+
+###### Description
+The `ClassDef()` construct in ScOOlang is used to create a user-defined class.
+
+###### Signature
+`ClassDef(className: String, fields: List[Field], constructor: Constructor, methods: List[Method])`
+
+###### Example
+
+```scala
+// Example usage in Scala code
+// This will create a class named ‘Class1’ with 2 fields ‘X’ and ‘Y’, a constructor, and two methods 'm1' and 'm2'
+// See how fields for a class are created in the second parameter List of the ClassDef and later used inside the constructor and methods
+ClassDef(
+    "Class1",
+    List(Field("X"), Field("Y")),
+    Constructor(
+        List(
+            Assign(Field("X"), Value(false)),
+            Assign(Field("Y"), Value(true))
+        )
+    ),
+    List(
+        Method(
+            "m1",
+            List(
+                Assign(Field("X"), NOT(Field("X"))),
+                Input("x")
+            ),
+            List(
+                Assign(Input("x"), Value(false))
+            )
+        ),
+        Method(
+            "m2",
+            List(
+                AND(Field("X"), Field("Y"))
+            ),
+            List(
+                Assign(Input("y"), Value(true))
+            )
+        )
+    )
+).eval
+```
++ A class defined using `ClassDef` can later be instantiated using the `NewObject` construct.
++ The `Field` construct in ScOOlang is used to define a field inside a class. Fields can be associated with boolean values.
++ Fields defined using `Field` can be accessed and manipulated within class methods. When a method is invoked on an object, the field references within the method refer to the specific instance's field values. In cases where inheritance is involved, fields may also reference values from parent classes.
++ The `Constructor` construct defines the constructor of a class, which is invoked automatically when an object of that class is created. `Constructor`s are used to initialize field variables within the class.
++ By default, all field variables are initialized to false.
+
+---
+
+#### Method
+
+###### Description
+The `Method()` construct in ScOOlang is used to define methods within a Class or an Abstract Class.
+
+###### Signature
+`Method(mName: String, exprs: List[constructs], params: List[Assign])`
+- `mName`: Name of the class method.
+- `exprs`: Expressions that should be evaluated when the method is called.
+- `params`: List of `Assign` constructs to create parameters that this method will take when invoked.
+
+###### Example
+
+```scala
+// Example usage in Scala code
+// Class1 defined with method m1. When invoked from an object of this class with input param ‘x’, 
+// its first statement will invert the value of Field ‘X’ of the class and the next statement will evaluate 
+// the result of AND of Input ’x’ and Field ‘X’.
+ClassDef(
+    "Class1",
+    List(Field("X")),
+    Constructor(List()),
+    List(
+        Method(
+            "m1",
+            List(
+                Assign(Field("X"), NOT(Field("X"))),
+                AND(Input("x"), Field("X"))
+            ),
+            List(
+                Assign(Input("x"), Value(false))
+            )
+        )
+    )
+).eval
+```
+
++ Methods defined using Method() can be invoked from an object. When invoked, a method returns a boolean value equivalent to the evaluation of its last statement.
++ Internal class fields with any access modifiers (private, public) can be utilized within a method.
++ Additionally, inherited fields with public access modifiers can also be utilized within a method.
+
+---
+
+#### NewObject
+
+###### Description
+The `NewObject` construct in ScOOlang is used to create objects of a previously defined concrete class.
+
+###### Signature
+`NewObject(className: String, v: Variable)`
+- `className`: Name of the class for which an object is being created.
+- `v`: Variable representing the object instance.
+
+###### Example
+
+```scala
+// Example usage in Scala code
+// Define Class1 with a field 'X' and a method 'm1'
+ClassDef(
+  "Class1",
+  List(Field("X")),
+  Constructor(List()),
+  List(Method(
+    "m1",
+    List(Assign(Field("X"), NOT(Field("X"))))
+  ))
+).eval
+
+// Make Class1 and its method m1 public
+Public("Class1", List("X"), List("m1")).eval
+
+// Create a new object named 'o1' of Class1
+NewObject("Class1", Variable("o1")).eval
+```
+
++ When an object is created using NewObject(), the constructor of the corresponding class (Class1 in this example) gets automatically invoked.
+
+---
+
+#### Variable
+
+###### Description
+The `Variable` construct in ScOOlang is used to refer to and utilize an existing object of a defined class.
+
+###### Signature
+`Variable(objName: String)`
+- `objName`: Name of the object instance.
+
+###### Example
+
+```scala
+// Example usage in Scala code
+// Define Class1 with a field 'X' and a method 'm1'
+ClassDef(
+  "Class1",
+  List(Field("X")),
+  Constructor(List()),
+  List(Method(
+    "m1",
+    List(
+      AND(Input("x"), NOT(Field("X")))
+    ),
+    List(
+      Assign(Input("x"), Value(false))
+    )
+  ))
+).eval
+
+// Make Class1 and its method m1 public
+Public("Class1", List("X"), List("m1")).eval
+
+// Create a new object named 'o1' of Class1
+NewObject("Class1", Variable("o1")).eval
+```
+Methods Associated with Variable
+1. **InvokeField()**: Used to get/fetch a field value.
+
+###### Signature:
+`InvokeField(fieldName: String)`
+###### Example:
+`Variable("o1").InvokeField("X")`
+
+2. **InvokeMethod()**: Used to invoke a method for the specified object.
+
+###### Signature:
+`InvokeMethod(methodName: String, params: List[Assign])`
+###### Example:
+`// Invoke method 'm1' for the object 'o1' with the parameter assignment`
+`Variable("o1").InvokeMethod("m1", List(Assign(Input("x"), Value(true))))`
+
++ When using `Variable`, you can refer to existing objects of a defined class and utilize their fields and methods using the associated methods InvokeField() and InvokeMethod().
+
+---
+
+#### Public() and Private()
+
+###### Description
+The `Public` and `Private` constructs in ScOOlang are used to restrict access to fields and methods of a class (concrete or abstract). They act as access modifiers, similar to those in general-purpose programming languages.
+
+###### Signature
+`Public: Public(className: String, fieldNameList: List[String], methodNameList: List[String])'
+Private: Private(className: String, fieldNameList: List[String], methodNameList: List[String])`
+
+
++ Note: By default, no access modifier is applied to any field or method.
++ Access modifiers need to be explicitly defined by the user using the above-mentioned constructs.
+
+    1. Public
+       Fields and methods of a class can be defined as Public using the Public() construct.
+       ###### Example
+
+         ```scala
+         // Define Class1 with a field 'X' and a method 'm1'
+         ClassDef(
+           "Class1",
+           List(Field("X")),
+           Constructor(List()),
+           List(Method(
+             "m1",
+             List(
+               AND(Input("x"), NOT(Field("X")))
+             ),
+             List(
+               Assign(Input("x"), Value(false))
+             )
+           ))
+         ).eval
+       
+         // Make Class1 and its method m1 public
+         Public("Class1", List("X"), List("m1")).eval
+         ```
+
+        + `Public` fields and methods can be accessed directly via an object of a class (See `InvokeField()` and `InvokeMethod()` sections for more details).
+        + These fields and methods are also subject to inheritance by child classes.
+
+        1. Private
+           Fields and methods of a class can be defined as Private using the `Private` construct.
+           ###### Example
+         ```scala
+         // Define Class1 with a field 'X' and a method 'm1'
+         ClassDef(
+           "Class1",
+           List(Field("X")),
+           Constructor(List()),
+           List(Method(
+             "m1",
+             List(
+               AND(Input("x"), NOT(Field("X")))
+             ),
+             List(
+               Assign(Input("x"), Value(false))
+             )
+           ))
+         ).eval
+       
+         // Make Class1 and its method m1 private
+         Private("Class1", List("X"), List("m1")).eval
+         ```
+
+        + Private fields and methods can be accessed only from within the class.
+        + These fields and methods **cannot** be invoked by class objects and cannot be inherited by child classes.
+
+---
+
+#### AbstractClassDef
+
+###### Description
+The `AbstractClassDef()` construct in ScOOlang is used to create a user-defined abstract class.
+
+###### Signature
+`AbstractClassDef(className: String, fields: List[Field], constructor: Constructor, concreteMethods: List[Method], abstractMethods: List[AbstractMethod])`
+- `className`: The name of the abstract class.
+- `fields`: A list of fields for the abstract class.
+- `constructor`: The constructor for the abstract class.
+- `concreteMethods`: A list of concrete methods for the abstract class.
+- `abstractMethods`: A list of abstract methods for the abstract class.
+
+###### Example
+```scala
+// Create an abstract class named absClass1. It has a Field 'X', a concrete method 'abc1', and an abstract method 'f'.
+AbstractClassDef(
+  "absClass1", 
+  List(Field("X")), 
+  Constructor(List(Assign(Field("X"), Value(true)))), 
+  List(Method("abc1", List(Value(true)), List())), 
+  List(AbstractMethod("f"))
+).eval
+```
+
++ In addition to the features that exist in a concrete class, an abstract class can accommodate abstract methods which do not need definitions.
++ Concrete classes that extend an abstract class need to provide definitions for the inherited abstract methods.
+
+###### Example
+   ```scala
+   // Create an abstract class named absClass1. It has a Field 'X', a concrete method 'abc1', and an abstract method 'f'.
+   // Define a concrete class that extends an abstract class and provides definitions for inherited abstract methods.
+   ClassDef("absChildClass1", List(), Constructor(List()), List(Method("g", List(Value(false)), List()))).eval
+   Public("absChildClass1", List(), List("g")).eval
+   Extend(ClassName("absChildClass1"), ClassName("absClass1")).eval
+   ```
+
++ It is possible for an abstract class to extend another abstract class.
+###### Example
+   ```scala
+   AbstractClassDef(
+     "absClass1", 
+     List(Field("X")), 
+     Constructor(List(Assign(Field("X"), Value(true)))), 
+     List(Method("abc1", List(Value(true)), List())), 
+     List(AbstractMethod("f"))
+   ).eval
+
+   AbstractClassDef(
+     "absClass2", 
+     List(Field("Y")), 
+     Constructor(List(Assign(Field("Y"), Value(true)))), 
+     List(Method("f", List(Value(false)), List())), 
+     List(AbstractMethod("g"))
+   ).eval
+
+   Public("absClass1", List("X"), List("abc1")).eval
+   Public("absClass2", List("Y"), List("f")).eval
+   Extend(ClassName("absClass2"), ClassName("absClass1")).eval
+   ```
+
++ It is not possible to instantiate objects for an abstract class, and doing so will lead to an exception.
+
+---
+
+#### InterfaceDef
+
+###### Description
+The `InterfaceDef()` construct in ScOOlang is used to create a user-defined interface.
+
+###### Signature
+`InterfaceDef(iName: String, cFields: List[ConstantField], assigns: List[Assign], abstractMethods: List[AbstractMethod])`
+- `iName`: The name of the interface.
+- `cFields`: A list of constant fields for the interface.
+- `assigns`: A list of assignments for the constant fields.
+- `abstractMethods`: A list of abstract methods for the interface.
+
+###### Example
+```scala
+// Creates an interface named myInterface1. It has a ConstantField 'X' and an abstract method 'f1'.
+InterfaceDef(
+  "myInterface1",
+  List(ConstantField("X")),
+  List(Assign(ConstantField("X"), Value(true))),
+  List(AbstractMethod("f1"))
+).eval
+```
+
++ Fields declared inside an interface are called `ConstantField`. These fields do not have any access modifier. They are inherited by classes that implement the interface.
++ In order for constant fields to be created, they must be assigned a value inside the constructor. Failure to do so will result in the `ConstantField` not getting created.
+
+---
+
+#### Extend
+
+###### Description
+The `Extend` construct in ScOOlang is responsible for achieving inheritance. It allows either a class (concrete or abstract) to extend another class (concrete or abstract) or an interface to extend another interface.
+
+###### Signature
+`Extend(childName: ClassName | InterfaceName, parentName: ClassName | InterfaceName)`
+
+###### Example
+```scala
+// Suppose that abstractA1, abstractA2, concreteC1, concreteC2, concreteC3 already exist
+Extend(ClassName("concreteC2"), ClassName("concreteC1")).eval
+Extend(ClassName("abstractA2"), ClassName("abstractA1")).eval
+Extend(ClassName("concreteC3"), ClassName("abstractA2")).eval
+Extend(InterfaceName("interfaceI2"), InterfaceName("interfaceI1")).eval
+```
++ As shown above, `ClassName` constructs are used to refer to both previously defined concrete and abstract classes while using `Extend`.
++ On the other hand, `InterfaceName` constructs are used to refer to a previously defined interface.
+
++ In the case a concrete class extends an abstract class, it will be required that the concrete class provides definitions for the abstract methods inherited from the abstract class.
+###### Example
+   ```scala
+   // As shown below, if childC1 extends absParentA1, it needs to define a method named ‘g’ of its own because it’s an abstract method in the parent class
+
+   AbstractClassDef(
+     "absParentA1",
+     List(Field("Y")),
+     Constructor(List(Assign(Field("Y"), Value(true)))),
+     List(Method("f", List(Input("x")), List(Assign(Input("x"), Value(false))))),
+     List(AbstractMethod("g"))
+   ).eval
+
+   Public("absParentA1", List("Y"), List("f")).eval
+
+   ClassDef(
+     "childC1",
+     List(),
+     Constructor(List()),
+     List(Method("g", List(Value(false)), List()))
+   ).eval
+
+   Public("childC1", List(), List("g")).eval
+
+   Extend(ClassName("childC1"), ClassName("absParentA1")).eval
+   ```
+
++ A class **cannot** extend an interface, and similarly, an interface cannot extend a class. Doing so will result in an exception being thrown.
+
+---
+
+#### Implements
+
+###### Description
+The `Implements` construct in ScOOlang is used to implement an interface by a (concrete or abstract) class.
+
+###### Signature
+`Implements(className: String, interfaceName: String)`
+
+###### Example
+```scala
+// Assuming Class C1 and interface I1 are already defined
+// C1 can be a concrete or an abstract class
+Implements("C1", "I1").eval
+```
+
++ Note: It is required that the implementing (concrete or abstract) class provides definitions for the abstract methods of the interface.
+
+---
+
+#### SubstituteObject
+
+###### Description
+The `SubstituteObject()` construct in ScOOlang is used to change the binding of an already created object. This allows one object to refer to the same memory location as another object or for implementing the concept of substitutivity.
+
+###### Signature
+`SubstituteObject(obj1: Variable, obj2: Variable)`
+- obj1- object for which the binding needs to be changed
+- obj2- new object. After evaluation, obj1 will point to the object at the same memory location as obj2.
+- Note: NOTE: either both objects should be of the same class type OR class type of obj1 should be a subtype of obj2
+
+###### Example: When Both Objects are of the Same Type
+```scala
+//This will change the binding of obj2 so that it now refers to the same object as obj1 in memory.
+// Define Class C1 with a Field X and a method m1
+ClassDef("C1", List(Field("X")), Constructor(List(Assign(Field("X"), Value(true)))), List(Method("m1", List(Assign(Field("X"), NOT(Field("X")))), List()))).eval
+Public("C1", List("X"), List("m1")).eval
+
+// Create two objects o1 and o2 of type C1
+NewObject("C1", Variable("o1")).eval
+NewObject("C2", Variable("o2")).eval
+
+// Check initial value of Field X for o2
+Variable("o2").InvokeField("X") // shouldBe true
+
+// Invoke method m1 on o1
+Variable("o1").InvokeMethod("m1", List()) // inverts value of Field X for o1
+
+// Change binding of o2 to refer to the same object as o1
+SubstituteObject(Variable("o2"), Variable("o1")).eval
+
+// Now o2 should reflect the changes made to o1
+Variable("o2").InvokeField("X") // this should now return false
+```
+
++ In addition to the features that exist in a concrete class, an abstract class can accommodate abstract methods which do not need definitions.
++ Concrete classes that extend an abstract class need to provide definitions for the inherited abstract methods.
+
+###### Example: When obj1 is a Subtype of obj2
+   ```scala
+   // Define childClass1 and parentClass1
+   ClassDef("childClass1", List(Field("X")), Constructor(List(Assign(Field("X"), Value(true)))), List(Method("m1", List(Field("X")), List()))).eval
+   ClassDef("parentClass1", List(Field("Y")), Constructor(List(Assign(Field("Y"), Value(false)))), List(Method("m1", List(Field("Y")), List()))).eval
+   Public("childClass1", List("X"), List("m1")).eval
+   Protected("parentClass1", List("Y"), List("m1")).eval
+
+   // Extend childClass1 from parentClass1
+   Extend(ClassName("childClass1"), ClassName("parentClass1")).eval
+
+   // Create objects of childClass1 and parentClass1
+   NewObject("childClass1", Variable("childObject1")).eval
+   NewObject("parentClass1", Variable("parentObject1")).eval
+
+   // Change binding of parentObject1 to refer to the childObject1
+   SubstituteObject(Variable("parentObject1"), Variable("childObject1")).eval
+
+   // Invoking method m1 on parentObject1 should now call the method from childClass1
+   Variable("parentObject1").InvokeMethod("m1", List()) // should return true
+   ```
+
++ When an object of the parent class is substituted by an object of the child class, invoking a method on the parent object will call the overridden method in the child object.
+
+---
+
+#### IF, CheckEqual, thenClause, elseClause
+
+###### Description
+The `IF` construct in ScOOlang is used to run a block of code based on a `CheckEqual` condition.
+
+###### Signature
+`IF(condition: CheckEqual, thenClause: List[constructs], elseClause: List[constructs])`
+- CheckEqual: A condition to evaluate.
+- thenClause: A list of expressions to execute if the condition is true.
+- elseClause: A list of expressions to execute if the condition is false.
+
+###### Example
+```scala
+// The CheckEqual will evaluate to true, thus the thenClause will be run, resulting in the creation of NotGate1 and AndGate1.
+IF(
+  CheckEqual(NOT(Value(false)), NOT(NOT(Value(true)))),
+  List(
+    Assign(LogicGate("NotGate1"), NOT(Input("A"))),
+    Assign(LogicGate("AndGate1"), AND(Input("A"), Input("B")))
+  ),
+  List(
+    Assign(LogicGate("OrGate1"), OR(Input("A"), Input("B")))
+  )
+).eval
+```
+
+##### CheckEqual
+###### Description
+The CheckEqual construct checks the equality of the evaluation of two logic gates. It returns true if the evaluation results are the same, otherwise, it returns false.
+
+###### Signature
+CheckEqual(i1: constructs, i2: constructs)
+
+###### Example
+   ```scala
+   //should result in false
+   CheckEqual(NOT(Value(false)), NOT(NOT(Value(false)))).eval
+   ```
+
++ thenClause and elseClause constructs are associated with the IF construct.
++ If the CheckEqual conditional construct evaluates to true, the thenClause associated with the IF construct will get executed.
++ If the CheckEqual conditional construct evaluates to false, the elseClause associated with the IF construct will get executed.
+
+---
+
+#### ExceptionClassDef, ThrowException
+
+###### Description
+The `ExceptionClassDef` construct declares a user-defined exception class in ScOOlang. Once defined, this exception class can be used to throw custom exceptions using the `ThrowException` construct.
+
+###### Signature
+`ExceptionClassDef(exClassName: String)`
+
+###### Example
+```scala
+//Declares an exception class named ExceptionClass1
+ExceptionClassDef("ExceptionClass1").eval
+
+// Handle an exception of type ExceptionClass1
+HandleException(
+  "ExceptionClass1",
+  Try(
+    List(
+      IF(
+        CheckEqual(AND(Value(true), Value(false)), OR(Value(true), Value(false))),
+        List(
+          Assign(LogicGate("NotGate4"), NOT(Input("A")))
+        ),
+        List(
+          Assign(LogicGate("AndGate4"), AND(Value(true), Value(true))),
+          ThrowException("ExceptionClass1", "Check failed!"),
+          Assign(LogicGate("OrGate4"), OR(Value(true), Value(false)))
+        )
+      )
+    )
+  ),
+  Catch(
+    List(
+      Assign(LogicGate("NotGate5"), NOT(Value(false)))
+    )
+  )
+).eval
+```
+  <div style="text-align: justify;">
+  This code snippet demonstrates the declaration of an exception class ExceptionClass1 and the handling of an exception within a Try block. Inside the Try block, an IF statement checks a condition using CheckEqual. If the condition is true, it executes certain assignments; otherwise, it throws an exception of type ExceptionClass1 with the message "Check failed!". The exception is caught in the Catch block, where a fallback assignment (Assign(LogicGate("NotGate5"), NOT(Value(false)))) is performed.
+   </div>
+
+##### ThrowException
+###### Description
+The `ThrowException` construct allows throwing an exception of a specified exception class with an associated message.
+###### Signature
+ThrowException(exClassName: String, reason: String)
+- exClassName: The name of the exception class to throw.
+- reason: A string message describing the reason for throwing the exception.
+
+###### Example
+   ```scala
+   //Throwing an exception of type ExceptionClass1 with the message "Check failed!".
+   ThrowException("ExceptionClass1", "Check failed!").eval
+   ```
+
+---
+
+#### HandleException, Try, Catch
+
+###### Description
+Handles exceptions (for a previously defined Exception Class) thrown within a `Try` block and specifies actions to take in case of an exception.
+
+###### Signature
+`HandleException(exClassName: String, tryBlock: Try, catchBlock: Catch)`
+
+###### Example
+```scala
+// Declares an exception class and sets up exception handling
+ExceptionClassDef("ExceptionClass1").eval
+
+// Handles exceptions of type ExceptionClass1
+HandleException("ExceptionClass1",
+  Try(
+    List(
+      IF(
+        CheckEqual(AND(Value(true), Value(false)), OR(Value(true), Value(false))),
+        List(
+          Assign(LogicGate("NotGate4"), NOT(Input("A")))
+        ),
+        List(
+          Assign(LogicGate("AndGate4"), AND(Value(true), Value(true))),
+          ThrowException("ExceptionClass1", "Check failed!"),
+          Assign(LogicGate("OrGate4"), OR(Value(true), Value(false)))
+        )
+      )
+    )
+  ),
+  Catch(
+    List(
+      Assign(LogicGate("NotGate5"), NOT(Value(false)))
+    )
+  )
+).eval
+```
+
+    <div style="text-align: justify;">
+During exception handling, the Try block executes sequentially, allowing all statements within it to run normally unless an exception is triggered using the ThrowException() construct. If an exception is thrown, execution skips any subsequent statements in the Try block and transfers control to the corresponding Catch block. The Catch block then handles the exception by executing its defined statements.
+   </div>  
+
+##### Try
+###### Description
+Encloses a block of expressions where exceptions may occur and should be handled.
+###### Signature
+`Try(exprs: List[constructs])`
+
+##### Catch
+###### Description
+Defines a block of expressions to handle exceptions thrown by a ThrowException() within a corresponding Try() block.
+###### Signature
+`Catch(exprs: List[constructs])`
+
+---
+
+#### Map()
+
+###### Description
+MAP() is a monadic function used to optimize boolean expressions by applying a transformer function to simplify them. It supports both partial and complete evaluation based on the transformer function and existing input values.
+
+###### Example: Complete Evaluation
+```scala
+Assign(LogicGate("OrGate"), OR(Input("A"), Input("B"))).eval
+
+// Evaluating without using MAP()
+assert(LogicGate("OrGate").eval == OR(Input("A"), Value(true)))
+
+// Using MAP() with a transformer function
+val func1: constructs => constructs = {
+  case OR(_, Value(true)) => Value(true)
+  case OR(Value(true), _) => Value(true)
+  case expr => expr
+}
+
+val x = LogicGate("OrGate").MAP(func1)
+assert(x == Value(true))
+```
+
+###### Example: Parital Evaluation
+```scala
+Assign(LogicGate("composite1"), AND(Input("A"), OR(Input("B"), Input("C")))).eval
+Scope(LogicGate("composite1"), List(Assign(Input("B"), Value(true)))).eval
+
+// Evaluating without using MAP()
+// assert(LogicGate("composite1").eval == AND(Input("A"), OR(Value(true), Input("C"))))
+
+// Using MAP() with a transformer function
+val func1: constructs => constructs = {
+  case OR(_, Value(true)) => Value(true)
+  case OR(Value(true), _) => Value(true)
+  case expr => expr
+}
+
+val x = LogicGate("composite1").MAP(func1)
+assert(x == AND(Input("A"), Value(true)))
+```
+
++ MAP() facilitates the optimization of logical expressions by transforming them according to predefined rules, allowing for more efficient evaluation.
++ Note: MAP() can simplify LogicGate expressions within an IF() block by evaluating logical expression statements inside its thenClause() and elseClause().
+
+---
+
+### Help with Exceptions/Errors
+
+Here are the details and improved error messages for handling exceptions and errors in your system:
+
+1. **"Undefined gate being evaluated!"**
+    - Error occurs when attempting to evaluate a non-existent logic gate.
+    - Example: `LogicGate("someGate").eval`
+
+2. **"Input to logic gate must be a logic gate and cannot be an Assign!"**
+    - Error occurs if an `Assign()` construct is used inside a boolean expression and is evaluated.
+    - Example: `NOT(Assign(LogicGate("logicGate1"), NOT(Value(true)))).eval`
+
+3. **"Input to logic gate must be a logic gate and cannot be a Scope!"**
+    - Error occurs if a `Scope()` construct is used inside a boolean expression and is evaluated.
+    - Example: `NOT(Scope(LogicGate("logicGate1"), List(Assign(Input("A"), Value(true))))).eval`
+
+4. **"Input assignment must be done within a scope of some logic gate!"**
+    - Error occurs when trying to `Assign` an `Input` without being scoped under a logic gate.
+    - Example: `Assign(Input("A"), Value(true)).eval`
+
+5. **"No Field(s) exists!"**
+    - Error occurs when attempting to assign or evaluate a non-existing field of a class from its constructor or method.
+
+6. **"Field assignment must be done within a class constructor or a member function!"**
+    - Error occurs when attempting to assign a field outside of a class constructor or method.
+
+7. **"Multiple inheritance not allowed!"**
+    - Error occurs if a child class tries to extend more than one class.
+
+8. **"Incompatible objects!"**
+    - Error occurs when attempting to substitute an object with another object that is not of the same class or its parent class.
+
+9. **"InvokeMethod can only be called on Variable() objects!"**
+    - Error occurs if `InvokeMethod()` is called on a data type other than `Variable`.
+
+10. **"InvokeField can only be called on Variable() objects!"**
+    - Error occurs if `InvokeField()` is called on a data type other than `Variable`.
+
+11. **"Undefined object!"**
+    - Error occurs when referencing an undefined object.
+
+12. **"Undefined gate being evaluated!"**
+    - Error occurs when evaluating a non-existent logic gate.
+
+13. **"Undefined Class!"**
+    - Error occurs when referencing an undefined class.
+
+14. **"Similar named object already exists!"**
+    - Error occurs when creating an object with a name that already exists.
+
+15. **"No such field(s) exists!"**
+    - Error occurs when assigning an access modifier to non-existing fields of a class.
+
+16. **"No such method exists!"**
+    - Error occurs when assigning an access modifier to non-existing methods of a class.
+
+17. **"Field already declared as public"**
+    - Error occurs when attempting to redeclare a field with an access modifier.
+
+18. **"Method already declared as public"**
+    - Error occurs when attempting to redeclare a method with an access modifier.
+
+19. **"No such methods exist! or method is neither public nor protected!"**
+    - Error occurs when invoking a method that does not exist or is not accessible.
+
+20. **"No such field exists! or field is neither public nor protected!"**
+    - Error occurs when accessing a field that does not exist or is not accessible.
+
+21. **"Undefined Interface!"**
+    - Error occurs when extending an undefined interface.
+
+22. **"Interface cannot extend a Class!"**
+    - Error occurs when trying to extend a class from an interface.
+
+23. **"Class cannot extend an interface!"**
+    - Error occurs when trying to extend an interface from a class.
+
+24. **"Some abstract Class Methods are undefined!"**
+    - Error occurs when not all abstract methods of an abstract class are overridden by the child class that extends it.
+
+25. **"Cyclic Inheritance not allowed!"**
+    - Error occurs when cyclic inheritance is detected.
+
+26. **"Cannot instantiate an abstract class!"**
+    - Error occurs when attempting to instantiate an abstract class.
+
+27. **"Similar named Exception Class already exists!"**
+    - Error occurs when creating an exception class with a name that already exists.
+
+28. **"Exception Class already handled!"**
+    - Error occurs when handling an exception class that has already been handled before.
+
+29. **"LogicGate evaluated only partially!"**
+    - Error occurs when using `TestGate(gateName, boolean)` to compare the evaluation of a logic gate with a boolean value, resulting in partial evaluation.
+
+These error messages help in debugging and handling various scenarios within the system effectively.
+
+---
+
+### Need Help?
+
+Reach out to me!
+
+**Email:** [punit.malpani@gmail.com](mailto:punit.malpani@gmail.com)
+
+
+Don't hesitate to contact us!
 
-# How to use the project
 
-## Basic commands: 
-- NOT, negation or complement - which receives one input and returns true when that input is false ("not");
-- AND or conjunction - true when all inputs are true ("both");
-- OR or disjunction - true when any input is true ("either")l;
-- XOR or exclusive disjunction - true when one of its inputs is true and the other is false ("not equal");
-- NAND or Sheffer stroke - true when it is not the case that all inputs are true ("not both");
-- NOR or logical nor - true when none of the inputs are true ("neither");
-- XNOR or logical equality - true when both inputs are the same ("equal");
 
-## Value
-Value is required to give any boolean values. Either to use a boolean value (true or false) in some logic gate expression or to assign boolean values to Input variables, Value() needs to be used.
 
-//Using boolean values inside a gate <br>
-**And(Value(true), Value(false)).eval**
-
-//Boolean values *true* and *false* cannot be given directly and doing so will generate an error.
-//This will not work and generate error<br>
-**And(true, false).eval**
-
-## Assign
-Assign() can be for three purposes: 
-1. To Assign a user-defined logic name to some boolean expression. 
-
-//The operator Assign takes the specification of the logic gate and assigns it to a variable named logicGate1.<br> 
-**Assign(LogicGate("logicGate1"), NOT(OR(Input("A"), Input("B")))).eval**
-
-2. To Assign User-defined Input Variables to some Value(boolean) inside the scope of some user-defined logic gate.
-
-//specifying inputs for this logic gate ("logicGate1") inside its own scope<br>
-**Scope(LogicGate("logicGate1"), List(Assign(Input("A"), Value(true)), Assign(Input("B"), Value(false)))).eval**
-
-//Or, the above inputs can be defined separately for the logic gate "logicGate1" as<br>
-**Scope(LogicGate("logicGate1"), List(Assign(Input("A"), Value(true))).eval**
-**Scope(LogicGate("logicGate1"), List(Assign(Input("B"), Value(false))).eval**
-
-3.  To Assign User-defined Field Variables of a class to some Value(boolean) inside the constructor or method of a class.
-
-(i) //The operator Assign assigns the Field of the class to the boolean evaluation of a logic gate either via the constructor of via a method invocation on some object of the class.<br> 
-**ClassDef("Class1", List(Field("X")), Constructor(List(Assign(Field("X"), Value(false)))), List(Method("m1", List(Assign(Field("X"), NOT(Field("X")))), List()))).eval**
-
-(ii) // The operator Assign assigns values of parameters passed to a method of a class both during class definition and method invocation.<br>
-**ClassDef("Class1", List(Field("X")), Constructor(List(Assign(Field("X"), Value(false)))), List(Method("m1", List(Assign(Field("X"), NOT(Field("X"))), Input("x")), List(Assign(Input("x"), Value(false)))))).eval**<br><br>
-
-**Variable("obj1").InvokeMethod("m1", List(Assign(Input("x"), Value(true))))**
-
-4. To Assign User-defined ConstantField Variables of an Interface to some Value(boolean) while declaring an interface.<br>
-**InterfaceDef("myInterface", List(ConstantField("X"), ConstantField("Y")), List(Assign(ConstantField("X"), Value(false)), Assign(ConstantField("Y"), NOT(Value(true)))), List(AbstractMethod("f1"), AbstractMethod("f2"))).eval**<br><br>
-
-## LogicGate
-
-LogicGate() is required to create and evaluate some user-defined logic gates. It takes a user-defined string as a parameter which is the user-defined name for the logic gate.
-
-//Creating a logic gate<br>
-**Assign(LogicGate("NotGate"), NOT(Input("A"))).eval**
-
-// Evaluating a created logic gate<br>
-**LogicGate("NotGate").eval**
-
-//Evaluating a logic gate that is not created will give an error<br>
-**LogicGate("someGate").eval**
-
-## Input
-
-Input() can be used in user-defined logic gates to create user-defined input variable name
-
-//"A" and "B" two inputs exist for logicGate1. <br>
-**Assign(LogicGate("logicGate1"), NOT(OR(Input("A"), Input("B")))).eval**
-
-// To set Input values for some logic gate we need to use a scope of that logic gate<br>
-// setting boolean value for input "A" for "logicGate1"  <br>
-**Scope(LogicGate("logicGate1"), List(Assign(Input("A"), Value(true))).eval**
-
-Input() can also be used inside the method parameter list during the class definition of method Invocation<br><br>
-See example in the **Assign** section<br>
-
-
-## Scope
-
-"Scope()" will help to filter out the current scope in order to assign input variables for respective logic gates
-
-As a first argument, it will take a parameter of type LogicGate(nameofthisgate: String) and a second parameter as a list of expressions which should be either another Scope expression or Assignment Expression.
-
-//Assigning input values for logic gate "logicGate1"<br>
-**Scope(LogicGate("logicGate1"), List(Assign(Input("A"), Value(true)), Assign(Input("B"), Value(false)))).eval**
-
-OR
-
-//Scope() can be called inside the list<br>
-//Assigning input values for some logic gate "logicGate1" with A -> true, B -> false and for a logic gate "logicGate2" with X -> false <br>
-**Scope(LogicGate("logicGate1"), List(Assign(Input("A"), Value(true)), Assign(Input("B"), Value(false)), Scope(LogicGate("logicGate2"), List(Assign(Input("X"), Value(false)))))).eval**
-
-//For expressions in the list argument of Scope which are not Assign or Scope type, just evaluations will be performed to test if those expressions are valid<br>
-//This Scope will just evaluate the expression given inside the list.<br>
-**Scope(LogicGate("logicGate1"), List(NOT(Value(true))).eval**
-
-## TestGate
-TestGate is a function that takes 2 parameters - 1) the name of user-defined logic gate and 2) a boolean value either "true" or "false"
-TestGate(gateName, BooleanValue) can be used to test a Logic gate defined with name gateName evaluates to the provided BooleanValue
-
-**TestGate("AndGate1", true)** 
-
-
-## getInputVal
-getInputVal() can be used to get the value of an already defined input value for a logic gate. It is a useful function to fetch input values without having to worry about remembering what values of input were set
-
-getInputVal() takes two parameters, nameOfLogicGate: String and nameOfdesiredInput: String.
-
-//This will return the value of Input variable "A" for "logicGate1"<br>
-**getInputVal("logicGate1", "A")**
-
-If the logic gate does not exist error "Input value invocation for an undefined logic Gate" is thrown.<br>
-If the required input variable for that logic gate does exist an error "Variable does not exist!" is thrown.
-
-  ### Note
-  Any boolean expressions, LogicGate, Assign or Scope must be evaluated using ".eval" at the end
-
-## ClassDef
-ClassDef() creates a user-defined class. It takes 4 parameters- 1) a user-defined string for the class name, 2) a list of Fields, 3) a Constructor, 4) a list of Method
-
-//Creates a class Class1 with Fields X, Constructor, Methods m1<br>
-**ClassDef("Class1", List(Field("X")), Constructor(List(Assign(Field("X"), Value(false)))), List(Method("m1", List(AND(Field("X"), Input("x"))), List(Assign(Input("x"), Value(false)))))).eval**
-
-
-## ClassName
-To refer a Class. ClassName("class1") refers to a class named "class1"
-
-//It is used to differentiate in Classes and Interfaces while using Extend()<br>
-**Extend(ClassName("childClass"), ClassName("parentClass")).eval**<br>
-
-## Field()
-Field() can be used in user-defined classes to create user-defined field variable names.
-
-//"X" and "Y" are two Fields that exist for Class1. <br>
-**ClassDef("Class1", List(Field("X"), Field("Y")), Constructor(List(Assign(Field("X"), Value(false)), Assign(Field("Y"), Value(true)))), List(Method("m1", List(Assign(Field("X"), NOT(Field("X"))), Input("x")), List(Assign(Input("x"), Value(false)))), Method("m2", List(AND(Field("X"), Field("Y"))), List(Assign(Input("y"), Value(true)))))).eval**
-
-## Constructor()
-Constructor() takes a list of LogicGate expressions and changes the Field values of a Class for Assign expressions
-
-// Constructor Assigns X->false, Y->true. The constructor gets invoked only when an object is created for the class.<br>
-**ClassDef("Class1", List(Field("X"), Field("Y")), Constructor(List(Assign(Field("X"), Value(false)), Assign(Field("Y"), Value(true)))), List(Method("m1", List(Assign(Field("X"), NOT(Field("X"))), Input("x")), List(Assign(Input("x"), Value(false)))), Method("m2", List(AND(Field("X"), Field("Y"))), List(Assign(Input("y"), Value(true)))))).eval**<br>
-
-**Note:** By default Fields are assigned to value False
-
-
-## Method()
-Method() takes 3 parameters- 1)A string for Method Name, 2) a list of LogicGate expressions 3) a list of parameters<br>
-Method() returns a boolean value equal to the last expression evaluation result
-
-//Method m1 takes a paramter x, expr1: inverts value of existing Field(X), expr2: return value of parameter x<br>
-**ClassDef("Class1", List(Field("X"), Field("Y")), Constructor(List(Assign(Field("X"), Value(false)), Assign(Field("Y"), Value(true)))), List(Method("m1", List(Assign(Field("X"), NOT(Field("X"))), Input("x")), List(Assign(Input("x"), Value(false)))))).eval**<br>
-
-
-## NewObject()
-NewObject() creates a new object of a class. It takes 2 parameters: 1) class name: String 2) data type Variable(objectName)
-
-// Creates new Object "o1" of Class1. When o1 is created, the constructor of this class is automatically called. <br>
-**NewObject("Class1", Variable("o1")).eval**
-
-## Variable()
-Variable() is used to refer to an object of a class. InvokeMethod() and InvokeField() can be called on Variable.
-
-//Invoking a method "m1" using object "o1"<br>
-**Variable("o1").InvokeMethod("m1", List(Assign("x"), Value(true)))**<br>
-
-//Invoking a field "X" using object "o1"<br>
-**Variable("o1").InvokeField("X")**
-
-## Access Modifiers
-**NOTE:** By default no access modifier is applied to any field or method. Access modifiers need to be explicitly defined by the user using the following data types
-
-### Public()
-Public() defines access for fields and methods of a class as Public. It Takes 3 parameters- 1) class name 2) List of fields to be defined Public, 3)List of methods to be defined Public
-
-// Defines Field X and Method m1 as Public<br>
-**Public("Class1", List("X"), List("m1")).eval**
-
-### Protected()
-Protected() defines access for fields and methods of a class as Protected. It Takes 3 parameters- 1) class name 2) List of fields to be defined and Protected, 3)List of methods to be defined Protected
-
-// Defines Field X and Method m1 as Protected<br>
-**Protected("Class1", List("X"), List("m1")).eval**
-
-### Private()
-Private() defines access for fields and methods of a class as Private. It Takes 3 parameters- 1) class name 2) List of fields to be defined Private, 3)List of methods to be defined Private
-
-// Defines Field X and Method m1 as Private<br>
-**Private("Class1", List("X"), List("m1")).eval**
-
-## Extend()
-Extend() is a datatype for Inheritance. It takes 2 parameters 1)child className Or child InterfaceName 2)parent className Or parent InterfaceName
-
-1. If parameters are of type ClassName() - Class cName extends Class pName.cName- child class name, pName- parent class name<br>
-// childClass extends parentClass<br>
-**Extend(ClassName("childClass"), ClassName("parentClass")).eval**<br>
-//child class inherits all public and protected fields and methods of the parent class and utilizes them using InvokeMethod() or InvokeField() functions<br>
-
-2. If parameters are of type InterfaceName() - Interface cName extends Interface pName.cName- child interface name, pName- parent interface name<br>
-// childInterface extends parentInterface<br>
-**Extend(InterfaceName("childInterface"), InterfaceName("parentInterface")).eval**<br>
-//child interface inherits all constant fields and abstract methods of parent interface and any class that implements child interface will need to implement all abstract methods of that interface and its super interfaces.<br>
-
-## SubstituteObject()
-SubstituteObject() can be used to change the binding of an already created object. It takes 2 parameters: 1) obj1: Object whose binding is to be changed, obj2: obj1 now refers to obj2<br>
-### NOTE: either both objects should be of the same class type OR class type of obj1 should be a subtype of obj2<br>
-
-// parentObject will now be referenced by the childobject and calling similar named function from the parentObject will call its overrided function in childobject<br>
-**SubstituteObject(Variable("parentObject"), Variable("childObject")).eval**<br>
-
-// obj1 will now refer to obj2<br>
-**SubstituteObject(Variable("obj1"), Variable("obj2")).eval**<br>
-
-
-## AbstractClassDef
-AbstractClassDef() creates a user-defined class. It takes 5 parameters- 1) a user-defined string for abstract class name, 2) a list of Fields, 3) a Constructor, 4) a list of concrete Methods, 5) a list of abstract methods
-
-// defines an abstract class absClass with Field X, Constructor, concrete method f1 & f2, and abstract method f3<br>
-**AbstractClassDef("absClass", List(Field("X")), Constructor(List(Assign(Field("X"), Value(false)))), List(Method("f1", List(OR(Field("X") ,Input("a"))), List(Assign(Input("a"), Value(true)))), Method("f2", List(Value(false)), List())), List(AbstractMethod("f3"))).eval**
-
-## InterfaceDef
-InterfaceDef() creates a user-defined interface. It takes 4 parameters- 1) a user-defined string for the interface name, 2) a list of constant fields, 3) a Constructor, 4) a list of assigns to set the value of the constant fields, 5) a list of abstract methods
-
-// defines an interface myInterface with constant Field X & Y,and abstrct methods f1 & f2<br>
-**InterfaceDef("myInterface", List(ConstantField("X"), ConstantField("Y")), List(Assign(ConstantField("X"), Value(false)), Assign(ConstantField("Y"), NOT(Value(true)))), List(AbstractMethod("f1"), AbstractMethod("f2"))).eval**
-
-## ConstantField
-ConstantField() can be used in user-defined interfaces to create user-defined constant fields and variable names.
-
-//"X" and "Y" are two constant Fields that exist for myInterface. <br>
-**InterfaceDef("myInterface", List(ConstantField("X"), ConstantField("Y")), List(Assign(ConstantField("X"), Value(false)), Assign(ConstantField("Y"), NOT(Value(true)))), List(AbstractMethod("f1"), AbstractMethod("f2"))).eval**
-
-## InterfaceName
-To refer to an Interface. Interface("interface") refers to an interface named "interface1"
-
-//It is used to differentiate in Classes and Interfaces while using Extend()<br>
-**Extend(InterfaceName("interface1"), InterfaceName("interface2")).eval**<br>
-
-## Implements
-Implements() is a datatype for the Implementation of an interface by a class. It takes 2 parameters 1)class name 2)interface name
-
-// class1 implements interface1<br>
-**Implements("class1", "interface1").eval**
-
-## IF 
-If() is a data type for selecting which block of code will be executed based on a condition. It checks a condition and if the condition is true it runs the thenClause, else it runs the elseClause<br>
-It takes 3 parameters: 1) CheckEqual, 2) a List of Expressions for thenClause, 3) a List of Expressions for elseClause<br>
-
-//check condition results in false and elseClause will be run<br> 
-**IF(CheckEqual(NOT(Value(false)), NOT(NOT(Value(false)))), List(Assign(LogicGate("NotGate2"), NOT(Input("A")))), List(Assign(LogicGate("OrGate2"), OR(Input("A"), Input("B"))), Assign(LogicGate("AndGate2"), AND(Input("A"), Input("B"))))).eval**
-
-## ExceptionClassDef
-ExceptionClassDef declares a user-defined exception class. It takes only one argument- exception class name.
-
-// defines an Exception Class named "ExceptionClass1"<br>
-**ExceptionClassDef("ExceptionClass1").eval**
-
-## HandleException
-HandleException defines an exception handler for an already declared exception class and executes the try-and-catch blocks. It takes 3 parameters: 1) an exception class name, 2) a Try(), 3) a Catch.
-
-// Defines an exception handler for class "ExceptionClass1". Try block runs. If the condition inside the Try block results in false and its elseClause runs executing the first expression which creates a logic gate AndGate4 and the second expression which throws an error. Since the error is thrown the third statement of elseClause is skipped and Catch block expressions are executed.<br><br>
-**HandleException("ExceptionClass1", Try(List(IF(CheckEqual(Value(true), NOT(Value(true))), List(Assign(LogicGate("NotGate4"), NOT(Input("A")))), List(Assign(LogicGate("AndGate4"), AND(Value(true), Value(true))), ThrowException("ExceptionClass1", "Check failed!"), Assign(LogicGate("OrGate4"), OR(Value(true), Value(false))))))), Catch(List(Assign(LogicGate("NotGate5"), NOT(Value(false)))))).eval**
-
-
-## ThrowException
-ThrowException() throws an exception along with a reason. It takes 2 parameters: 1) name of exception class, 2) reason for the exception
-
-//Throws an exception of type "ExceptionClass1" with reason "Check failed!"<br>
-**ThrowException("ExceptionClass1", "Check failed!")**
-
-
-## Try
-Try() takes a list of expressions. It should be used inside the HandleException() data type. Evaluation of a try block executes all the expressions passed to it  sequentially unless a ThrowException is executed.
-
-// Try block used inside a HandleException() type, with a list of 3 expressions passed to it as parameters<br> 
-**HandleException("ExceptionClass1", Try(List(IF(CheckEqual(Value(true), NOT(Value(true))), List(Assign(LogicGate("NotGate4"), NOT(Input("A")))), List(Assign(LogicGate("AndGate4"), AND(Value(true), Value(true))), ThrowException("ExceptionClass1", "Check failed!"), Assign(LogicGate("OrGate4"), OR(Value(true), Value(false))))))), Catch(List(Assign(LogicGate("NotGate5"), NOT(Value(false)))))).eval**
-
-## Catch
-Catch() takes a list of expressions. It should be used inside the HandleException() data type. Evaluation of a catch block executes all the expressions passed to it in case a ThrowException is executed in the corresponding try block.
-
-// Catch block used inside a HandleException() type, with a list of 1 Assign expression passed to it as parameters<br> 
-**HandleException("ExceptionClass1", Try(List(IF(CheckEqual(Value(true), NOT(Value(true))), List(Assign(LogicGate("NotGate4"), NOT(Input("A")))), List(Assign(LogicGate("AndGate4"), AND(Value(true), Value(true))), ThrowException("ExceptionClass1", "Check failed!"), Assign(LogicGate("OrGate4"), OR(Value(true), Value(false))))))), Catch(List(Assign(LogicGate("NotGate5"), NOT(Value(false)))))).eval**
-
-## CheckEqual
-CheckEqual() takes 2 parameters- 1)logic gate 1, 2) logic gate 2. It checks the equality of evaluation of two of the logic gates. It returns true if the evaluation results are the same, else it returns false.
-
-//since evaluation of AND(Value(true), Value(false)) and OR(Value(true), Value(false)) is not same, it return false<br>
-**CheckEqual(AND(Value(true), Value(false)), OR(Value(true), Value(false))).eval**
-
-//it is used inside IF() as well<br>
-**IF(CheckEqual(NOT(Value(false)), NOT(NOT(Value(false)))), List(Assign(LogicGate("NotGate2"), NOT(Input("A")))), List(Assign(LogicGate("OrGate2"), OR(Input("A"), Input("B"))), Assign(LogicGate("AndGate2"), AND(Input("A"), Input("B"))))).eval**
-
-## MAP
-MAP() is a monadic function that takes an optimizing transformer function and applies it to boolean expressions in order to simplify boolean expressions. To use MAP() for partial evaluation a transformer function should be passed to it. An example of a transformer function is given below:<br>
-
-E.g. 
-val transformingFunc =  LogicGates => LogicGates = {<br>
-      case OR(_, Value(true)) => Value(true)<br>
-      case OR(Value(true), _) => Value(true)<br>
-      case expr => expr<br>
-    }<br>
-    
-    The above function transforms any boolean expression of the form OR(_, Value(true)) or OR(Value(true), _) to Value(true). Apart from these two, the above transformer function will simply return the expression as it was.  
-    
-**AND(Input("A"), OR(Input("B"), Input("C")).MAP(transformingFunc)**<br><br>
-This will result in a simplified expression i.e. <b>AND(Input("A"), Value(true))</b>
-
-## eval
-
-eval is a function applied to the data types of the language to evaluate those data types. When applied to boolean expressions, simple like - NOT, AND, OR, NOR, NAND, XOR, and XNOR or complex that combine simple boolean expressions, eval will either evaluate the entire boolean expression if possible, otherwise it will return the logicgate itself.
-
-**AND(Value(true), Value(false)).eval** will result in **false**
-
-**Assign(LogicGate("AndGate"), AND(Input("A"), Input("B"))).eval**
-**LogicGate("AndGate").eval** will result in **AND(Input("A"), Input("B"))** if inputs values are missing
-
-In order to partially evaluate some expressions, MAP() should be used.
-
-
-HW5 Functionality Answers:
-1) Changed **eval** method's return type to Boolean | LogicGates
-2) Defined monadic function MAP() which operates over the following constructs-<br>
-   * LogicGate()- Fetches gate from environment table 
-   * Input()- Fetches Input value from environment table 
-   * NOT()/OR()/AND()/NOR()/NAND()/XOR()/XNOR() - recursively applies the transformer function passed to the inputs of these gates, and then to the entire gate
-   * MAP() does not alter any remaining language constructs
-3) Optimizing transformers examples are mentioned in Scala tests.
-    E.g.     
-    val func: LogicGates => LogicGates = {<br>
-      case OR(_, Value(true)) => Value(true)<br>
-      case OR(Value(true), _) => Value(true)<br>
-      case AND(Value(false), _) => Value(false)<br>
-      case AND(_, Value(false)) => Value(false)<br>
-      case NOR(_, Value(true)) => Value(false)<br>
-      case NOR(Value(true), _) => Value(false)<br>
-      case NAND(Value(false), _) => Value(true)<br>
-      case NAND(_, Value(false)) => Value(true)<br>
-      case expr => expr<br>
-    } <br>
-    This function transforms all the given cases to it to logic gate Value(boolean_value).
-    
-4) Scala tests for partial evaluation are added to the LangugaeTest.scala file
-
-# ERRORS
-The Following Error will be thrown for corresponding situations:
-1. "Undefined gate being evaluated!"- If logic gate being evaluated does not exists
-    **LogicGate("someGate").eval**
-    
-2. "Input to logic gate must be a logic gate and cannot be an Assign"- If Assign() is used inside a boolean expression and is evaluated
-    **NOT(Assign(LogicGate("logicGate1"), NOT(Value(true)))).eval**
-    
-3. "Input to logic gate must be a logic gate and cannot be a Scope"- If Scope() is used inside a boolean expression and is evaluated
-    **NOT(Scope(LogicGate("logicGate1"), List(Assing(Input("A"), Value(true))))).eval**
-    
-4.  Input assignment must be done within a scope of some logic gate!- If trying to Assign an Input without Scope of some logicGate
-    **Assign(Input("A"), Value(true)).eval**
-
-5. "No Field(s) exists!" - Trying to assign or evaluate a non-existing field of a class from its constructor or its method
-
-6. "Field assignment must be done within a class constructor or a member function!"- If a field is tried to be assigned outside of a class constructor or class method
-
-7. "Multiple inheritance not allowed!"- If a childclass that already extends a parentclass tries to extend another class 
-
-8. "Incompatible objects!"- If an object is tried to be substituted by another object which neither belongs to its same class or its parent class
-
-9. "InvokeMethod can only be called on Variable() objects!"- If InvokeMethod() function is called data type apart from "Variable"
-
-10. "InvokeField can only be called on Variable() objects!"- If InvokeField() function is called data type apart from "Variable"
-
-11. "Undefined object!"- Use some undefined object
-
-12. "Undefined gate being evaluated!"- Use some undefined logicGate
-
-13. "Undefined Class!"- Use some undefined class
-
-14. "Similar named object already exists!"- Create an object with a similar name to an already existing object
-
-15. "No such field(s) exists!"- Assign access modifier to non-existing fields of a class
-
-16. "No such method exists!"- Assign access modifier to non-existing methods of a class
-
-17. "Field already declared as public" - Assign access modifier to fields that have already been assigned an access modifier
-<br>"Field already declared as protected"
-<br>"Field already declared as private"
-
-18. "Method already declared as public" - Assign access modifier to methods that have already been assigned an access modifier
-<br>"Method already declared as protected"
-<br>"Method already declared as private"
-
-19. "No such methods exist! or method is neither public nor protected!" - Invoke a method that does not exist or is not declared public/protected
-
-20. "No such field exists! or field is neither public nor protected!"-  Accessing a field that does not exist or is not declared public/protected 
-
-21. "Undefined Interface!" - Extend an undefined interface
-
-22. "Interface cannot extend a Class!" - Extend a class from an interface
-
-23. "Class cannot extend an interface!" - Extend an interface from a class
-
-24. "Some abstract Class Methods are undefined!" - All abstract methods of an abstract class are not overridden by the child class that extends the abstract class
-
-25. "Cyclic Inheritance not allowed!" - cyclic inheritance is detected
-
-26. "Cannot instantiate an abstract class!" - Instantiating an abstract class     
-
-27. "Similar named Exception Class already exists!" - Create an exception class with a similar name to an already existing exception class
-
-28. "Exception Class already handled!" - Handling an exception of an exception class type, whose HandleException was already defined before.   
-
-29. "LogicGate evaluated only partially!" - if TestGate(gateName, boolean) is used to compare the evaluation of some logicgate to a boolean value, which can only be evaluated partially 
