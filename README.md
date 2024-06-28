@@ -69,7 +69,6 @@ ScOOlang offers a comprehensive set of constructs for logic gate designers and o
 - [Variable](#Variable)
 - [Public and Private](#public-and-private)
 - [AbstractClassDef](#abstractclassdef)
-- [AbstractMethod](#abstractmethod)
 - [InterfaceDef](#interfacedef)
 - [ConstantField](#interfacedef)
 - [Extend](#extend)
@@ -90,7 +89,29 @@ This sub-section will contain explanations and usage examples for various ScOOla
 import ScOOlang.lang._constructName_
 ```
 
-### <ins> NOT</ins>
+### <ins>Value</ins>
+
+###### Description
+The `Value` construct in ScOOlang represents a boolean value.
+
+###### Signature:
+`Value(v: Boolean)`
+
+###### Usage Example
+```scala
+// Example usage in Scala code
+val value1 = Value(false)
+val value2 = Value(true)
+val andResult = AND(Value(true), Value(false))
+
+// Evaluation of a Value construct will result in a boolean value true or false.
+// E.g., the following will result in true
+Value(true).eval
+```
+
+---
+
+### <ins>NOT</ins>
 
 ###### Description
 The `NOT` construct in ScOOlang represents a NOT gate. It takes one parameter, which should be another ScOOlang construct.
@@ -163,9 +184,11 @@ LogicGate("AndOrGate1").eval
 ```
 
 The `Assign` code line above creates a logic gate variable named "AndOrGate1" and assigns it the logic expression `OR(Input("A"), AND(Input("B"), Input("C")))`, which requires three inputs: 'A', 'B', and 'C'.
-
- > [!WARNING]
- > It is required for a `LogicGate` to be assigned a logic expression using the Assign construct before it can be evaluated. A declared `LogicGate` construct that is undefined (i.e., hasn’t been assigned a logic expression yet) will throw an error when evaluated.
+<br>
+ 
+ > [!NOTE]
+ > + It is required for a `LogicGate` to be assigned a logic expression using the Assign construct before it can be evaluated. 
+ > + A declared `LogicGate` construct that is undefined (i.e., hasn’t been assigned a logic expression yet) will throw an error when evaluated.
 
 ```scala
 // Example of an error when evaluating an undefined LogicGate
@@ -288,8 +311,13 @@ Scope(
     )
 ).eval
 ```
+<br>
 
-+ It is required that while using `Input` in a logical expression, it should be associated with a `LogicGate`. This ensures that similarly named inputs can be defined for different `LogicGate`s. It also allows for changing these input signals as required during the flow of the code.
+ > [!NOTE]
+ > + It is required that while using `Input` in a logical expression, it should be associated with a `LogicGate`. 
+ > + This ensures that similarly named inputs can be defined for different `LogicGate`s. It also allows for changing these input signals as required during the flow of the code.
+<br>
+
 ###### Example
 ```scala
 // Example usage in Scala code
@@ -363,8 +391,9 @@ Scope(
 ).eval
 
 ```
-+ Unlike scopes in general-purpose programming languages, ScOOlang's Scope does not define a start and end to a scope block.
-+ Instead, it allows for nesting and managing the assignment of inputs across multiple LogicGates dynamically during evaluation.
+
+   + Unlike scopes in general-purpose programming languages, ScOOlang's Scope does not define a start and end to a scope block.
+   + Instead, it allows for nesting and managing the assignment of inputs across multiple LogicGates dynamically during evaluation.
 
 ---
 
@@ -383,7 +412,7 @@ Assign(LogicGate("NotGate"), NOT(Value(true))).eval
 TestGate("NotGate", false)
 ```
 
-`TestGate` is a method itself and does not require invoking any additional method like .eval. It directly checks whether the LogicGate named NotGate evaluates to false.
+   + `TestGate` is a method itself and does not require invoking any additional method like .eval. It directly checks whether the LogicGate named NotGate evaluates to false.
 
 ---
 
@@ -458,7 +487,12 @@ ClassDef(
 + The `Field` construct in ScOOlang is used to define a field inside a class. Fields can be associated with boolean values.
 + Fields defined using `Field` can be accessed and manipulated within class methods. When a method is invoked on an object, the field references within the method refer to the specific instance's field values. In cases where inheritance is involved, fields may also reference values from parent classes.
 + The `Constructor` construct defines the constructor of a class, which is invoked automatically when an object of that class is created. `Constructor`s are used to initialize field variables within the class.
-+ By default, all field variables are initialized to false.
+<br>
+
+  > [!NOTE]
+  > + By default, all field variables are initialized to false.
+
+<br>
 
 ---
 
@@ -498,9 +532,9 @@ ClassDef(
 ).eval
 ```
 
-+ Methods defined using Method() can be invoked from an object. When invoked, a method returns a boolean value equivalent to the evaluation of its last statement.
-+ Internal class fields with any access modifiers (private, public) can be utilized within a method.
-+ Additionally, inherited fields with public access modifiers can also be utilized within a method.
+   + Methods defined using Method() can be invoked from an object. When invoked, a method returns a boolean value equivalent to the evaluation of its last statement.
+   + Internal class fields with any access modifiers (private, public) can be utilized within a method.
+   + Additionally, inherited fields with public access modifiers can also be utilized within a method.
 
 ---
 
@@ -535,7 +569,7 @@ Public("Class1", List("X"), List("m1")).eval
 NewObject("Class1", Variable("o1")).eval
 ```
 
-+ When an object is created using NewObject(), the constructor of the corresponding class (Class1 in this example) gets automatically invoked.
+   + When an object is created using `NewObject`, the constructor of the corresponding class (Class1 in this example) gets automatically invoked.
 
 ---
 
@@ -600,43 +634,44 @@ The `Public` and `Private` constructs in ScOOlang are used to restrict access to
 
 ###### Signature
 `Public: Public(className: String, fieldNameList: List[String], methodNameList: List[String])'
-Private: Private(className: String, fieldNameList: List[String], methodNameList: List[String])`
+Private: Private(className: String, fieldNameList: List[String], methodNameList: List[String])`<br>
 
+  > [!NOTE]
+  >+ By default, no access modifier is applied to any field or method.
+  >+ Access modifiers need to be explicitly defined by the user using the above-mentioned constructs.
+  <br>
 
-+ Note: By default, no access modifier is applied to any field or method.
-+ Access modifiers need to be explicitly defined by the user using the above-mentioned constructs.
-
-    1. **Public**
-       Fields and methods of a class can be defined as Public using the Public() construct.
-       ###### Usage Example
-         ```scala
-         // Define Class1 with a field 'X' and a method 'm1'
-         ClassDef(
-           "Class1",
-           List(Field("X")),
-           Constructor(List()),
-           List(Method(
-             "m1",
-             List(
-               AND(Input("x"), NOT(Field("X")))
-             ),
-             List(
-               Assign(Input("x"), Value(false))
-             )
-           ))
-         ).eval
+  1. **Public**
+     Fields and methods of a class can be defined as Public using the Public() construct.
+     ###### Usage Example
+       ```scala
+       // Define Class1 with a field 'X' and a method 'm1'
+       ClassDef(
+         "Class1",
+         List(Field("X")),
+         Constructor(List()),
+         List(Method(
+           "m1",
+           List(
+             AND(Input("x"), NOT(Field("X")))
+           ),
+           List(
+             Assign(Input("x"), Value(false))
+         )
+         ))
+       ).eval
        
-         // Make Class1 and its method m1 public
-         Public("Class1", List("X"), List("m1")).eval
-         ```
+       // Make Class1 and its method m1 public
+       Public("Class1", List("X"), List("m1")).eval
+       ```
 
         + `Public` fields and methods can be accessed directly via an object of a class (See `InvokeField()` and `InvokeMethod()` sections for more details).
         + These fields and methods are also subject to inheritance by child classes.
 
-        2. **Private**
-           Fields and methods of a class can be defined as Private using the `Private` construct.
-           ###### Usage Example
-         ```scala
+  2. **Private**
+       Fields and methods of a class can be defined as Private using the `Private` construct.
+       ###### Usage Example
+     ```scala
          // Define Class1 with a field 'X' and a method 'm1'
          ClassDef(
            "Class1",
@@ -655,10 +690,10 @@ Private: Private(className: String, fieldNameList: List[String], methodNameList:
        
          // Make Class1 and its method m1 private
          Private("Class1", List("X"), List("m1")).eval
-         ```
+     ```
 
-        + Private fields and methods can be accessed only from within the class.
-        + These fields and methods **cannot** be invoked by class objects and cannot be inherited by child classes.
+     + Private fields and methods can be accessed only from within the class.
+     + These fields and methods **cannot** be invoked by class objects and cannot be inherited by child classes.
 
 ---
 
@@ -688,6 +723,7 @@ AbstractClassDef(
 ```
 
    + In addition to the features that exist in a concrete class, an abstract class can accommodate abstract methods which do not need definitions.
+   + `AbstractMethod` constructs should be used inside `AbstractClassDef` and `InterfaceDef` to define abstract method names. Parameters will be given while defining a concrete method by the class that inherits corresponding abstract method.
    + Concrete classes that extend an abstract class need to provide definitions for the inherited abstract methods.
 
       ###### Example
@@ -800,8 +836,11 @@ Extend(InterfaceName("interfaceI2"), InterfaceName("interfaceI1")).eval
 
    Extend(ClassName("childC1"), ClassName("absParentA1")).eval
    ```
+<br>
 
-   + A class **cannot** extend an interface, and similarly, an interface cannot extend a class. Doing so will result in an exception being thrown.
+   > [!NOTE] 
+   > + A class **cannot** extend an interface, and similarly, an interface cannot extend a class. Doing so will result in an exception being thrown.
+<br>
 
 ---
 
@@ -819,8 +858,10 @@ The `Implements` construct in ScOOlang is used to implement an interface by a (c
 // C1 can be a concrete or an abstract class
 Implements("C1", "I1").eval
 ```
+<br>
 
-   + Note: It is required that the implementing (concrete or abstract) class provides definitions for the abstract methods of the interface.
+   > [!NOTE]
+   > + It is required that the implementing (concrete or abstract) class provides definitions for the abstract methods of the interface.
 
 ---
 
@@ -859,8 +900,8 @@ SubstituteObject(Variable("o2"), Variable("o1")).eval
 Variable("o2").InvokeField("X") // this should now return false
 ```
 
-+ In addition to the features that exist in a concrete class, an abstract class can accommodate abstract methods which do not need definitions.
-+ Concrete classes that extend an abstract class need to provide definitions for the inherited abstract methods.
+   + In addition to the features that exist in a concrete class, an abstract class can accommodate abstract methods which do not need definitions.
+   + Concrete classes that extend an abstract class need to provide definitions for the inherited abstract methods.
 
 ###### Usage Example: When obj1 is a Subtype of obj2
 ```scala
@@ -973,7 +1014,7 @@ HandleException(
 ```
   <div style="text-align: justify;">
   This code snippet demonstrates the declaration of an exception class ExceptionClass1 and the handling of an exception within a Try block. Inside the Try block, an IF statement checks a condition using CheckEqual. If the condition is true, it executes certain assignments; otherwise, it throws an exception of type ExceptionClass1 with the message "Check failed!". The exception is caught in the Catch block, where a fallback assignment (Assign(LogicGate("NotGate5"), NOT(Value(false)))) is performed.
-   </div>
+  </div>
 
 #### **ThrowException**
 ###### Description
@@ -1090,7 +1131,7 @@ assert(x == AND(Input("A"), Value(true)))
 ```
 
    + MAP() facilitates the optimization of logical expressions by transforming them according to predefined rules, allowing for more efficient evaluation.
-   + Note: MAP() can simplify LogicGate expressions within an IF() block by evaluating logical expression statements inside its thenClause() and elseClause().
+   + MAP() can also simplify LogicGate expressions within an IF() block by evaluating logical expression statements inside its thenClause() and elseClause().
 
 ---
 
