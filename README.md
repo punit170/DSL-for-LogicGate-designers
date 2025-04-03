@@ -5,6 +5,8 @@
 ScOOlang is a domain-specific language designed specifically for logic gate designers. Initially, this project aimed to explore the inner workings of language constructs and their implementation, particularly in the context of logical expressions commonly used by hardware designers. As the project evolved, its focus shifted to creating a DSL that simplifies the creation and evaluation of complex boolean expressions, enhanced with advanced object-oriented features.
 </div>
 
+![graphic cover image](./project-ScOOlang-graphic-img.png)
+
 ## Built With
 
 - **Scala 3.2.1** - The programming language used for developing ScOOlang.
@@ -90,6 +92,8 @@ import ScOOlang.lang._constructName_
 ```
 
 ### <ins>Value</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Value` construct in ScOOlang represents a boolean value.
@@ -109,9 +113,13 @@ val andResult = AND(Value(true), Value(false))
 Value(true).eval
 ```
 
+</details>
+
 ---
 
 ### <ins>NOT</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `NOT` construct in ScOOlang represents a NOT gate. It takes one parameter, which should be another ScOOlang construct.
@@ -128,9 +136,14 @@ val g1 = NOT(Value(false))
 // E.g., g1.eval will result in true (boolean type).
 g1.eval
 ```
+</details>
+
 ---
 
+
 ### <ins>AND, OR, NAND, NOR, XOR, XNOR</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The constructs `AND`, `OR`, `NAND`, `NOR`, `XOR`, and `XNOR` in ScOOlang are used to create corresponding logic gates. Each of these constructs takes two parameters, which should be other ScOOlang constructs representing boolean values. Their execution results in applying the boolean operation as per their names and returns a Boolean value.
@@ -163,9 +176,13 @@ val complexExpression = AND(
 complexExpression.eval
 ```
 
+</details>
+
 ---
 
 ### <ins>LogicGate</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `LogicGate` construct in ScOOlang is used to declare logic expression variables. It takes a `logicVarName` parameter of type `String`.
@@ -196,9 +213,14 @@ val myLogicGate = LogicGate("g1")
 myLogicGate.eval  // This will generate an error
 ```
 
+</details>
+
 ---
 
 ### <ins>Assign</ins>
+
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Assign` construct in ScOOlang is responsible for binding variables and values. It can be used to create bindings for various ScOOlang constructs:
@@ -284,9 +306,13 @@ d. **ConstantField construct:**
    ```   
   Note: Check more about unknown constructs in the InterfaceDef section.
 
+</details>
+
 ---
 
 ### <ins>Input</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Input` construct in ScOOlang is used to provide inputs to define a `LogicGate` expression.
@@ -346,9 +372,13 @@ Scope(
 
 + See Scope to understand more about the above example.
 
+</details>
+
 ---
 
 ### <ins>Scope</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Scope` construct in ScOOlang allows for assigning multiple input fields for one `LogicGate` or for multiple logic gates at once.
@@ -395,9 +425,13 @@ Scope(
    + Unlike scopes in general-purpose programming languages, ScOOlang's Scope does not define a start and end to a scope block.
    + Instead, it allows for nesting and managing the assignment of inputs across multiple LogicGates dynamically during evaluation.
 
+</details>
+
 ---
 
 ### <ins>TestGate</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `TestGate()` construct in ScOOlang is used to check if a `LogicGate` evaluates to a particular boolean value or not.
@@ -414,9 +448,13 @@ TestGate("NotGate", false)
 
    + `TestGate` is a method itself and does not require invoking any additional method like .eval. It directly checks whether the LogicGate named NotGate evaluates to false.
 
+</details>
+
 ---
 
 ### <ins>getInputVal()</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `getInputVal()` method in ScOOlang is used to fetch/get input values associated with a `LogicGate`, provided that the input value can be evaluated to a Boolean value.
@@ -436,9 +474,13 @@ val A = getInputVal("AndGate", "A")
 
 + In the example above, `getInputVal("AndGate", "A")` fetches the current Boolean value associated with the input variable "A" of the `LogicGate` named "AndGate". This method is useful for retrieving and using the current state of input variables within logical expressions.
 
+</details>
+
 ---
 
 ### <ins>ClassDef, Field, Constructor</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `ClassDef()` construct in ScOOlang is used to create a user-defined class.
@@ -494,9 +536,13 @@ ClassDef(
 
 <br>
 
+</details>
+
 ---
 
 ### <ins>Method</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Method()` construct in ScOOlang is used to define methods within a Class or an Abstract Class.
@@ -536,9 +582,13 @@ ClassDef(
    + Internal class fields with any access modifiers (private, public) can be utilized within a method.
    + Additionally, inherited fields with public access modifiers can also be utilized within a method.
 
+</details>
+
 ---
 
 ### <ins>NewObject</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `NewObject` construct in ScOOlang is used to create objects of a previously defined concrete class.
@@ -571,9 +621,13 @@ NewObject("Class1", Variable("o1")).eval
 
    + When an object is created using `NewObject`, the constructor of the corresponding class (Class1 in this example) gets automatically invoked.
 
+</details>
+
 ---
 
 ### <ins>Variable</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Variable` construct in ScOOlang is used to refer to and utilize an existing object of a defined class.
@@ -625,9 +679,13 @@ Methods Associated with Variable
 
    + When using `Variable`, you can refer to existing objects of a defined class and utilize their fields and methods using the associated methods InvokeField() and InvokeMethod().
 
+</details>
+
 ---
 
 ### <ins>Public and Private</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Public` and `Private` constructs in ScOOlang are used to restrict access to fields and methods of a class (concrete or abstract). They act as access modifiers, similar to those in general-purpose programming languages.
@@ -695,9 +753,13 @@ Private: Private(className: String, fieldNameList: List[String], methodNameList:
      + Private fields and methods can be accessed only from within the class.
      + These fields and methods **cannot** be invoked by class objects and cannot be inherited by child classes.
 
+</details>
+
 ---
 
 ### <ins>AbstractClassDef</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `AbstractClassDef()` construct in ScOOlang is used to create a user-defined abstract class.
@@ -761,9 +823,13 @@ AbstractClassDef(
 
    + It is not possible to instantiate objects for an abstract class, and doing so will lead to an exception.
 
+</details>
+
 ---
 
 ### <ins>InterfaceDef</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `InterfaceDef()` construct in ScOOlang is used to create a user-defined interface.
@@ -789,9 +855,13 @@ InterfaceDef(
    + Fields declared inside an interface are called `ConstantField`. These fields do not have any access modifier. They are inherited by classes that implement the interface.
    + In order for constant fields to be created, they must be assigned a value inside the constructor. Failure to do so will result in the `ConstantField` not getting created.
 
+</details>
+
 ---
 
 ### <ins>Extend</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Extend` construct in ScOOlang is responsible for achieving inheritance. It allows either a class (concrete or abstract) to extend another class (concrete or abstract) or an interface to extend another interface.
@@ -842,9 +912,13 @@ Extend(InterfaceName("interfaceI2"), InterfaceName("interfaceI1")).eval
    > + A class **cannot** extend an interface, and similarly, an interface cannot extend a class. Doing so will result in an exception being thrown.
 <br>
 
+</details>
+
 ---
 
 ### <ins>Implements</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `Implements` construct in ScOOlang is used to implement an interface by a (concrete or abstract) class.
@@ -863,9 +937,13 @@ Implements("C1", "I1").eval
    > [!NOTE]
    > + It is required that the implementing (concrete or abstract) class provides definitions for the abstract methods of the interface.
 
+</details>
+
 ---
 
 ### <ins>SubstituteObject</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `SubstituteObject()` construct in ScOOlang is used to change the binding of an already created object. This allows one object to refer to the same memory location as another object or for implementing the concept of substitutivity.
@@ -927,9 +1005,13 @@ Variable("parentObject1").InvokeMethod("m1", List()) // should return true
 
    + When an object of the parent class is substituted by an object of the child class, invoking a method on the parent object will call the overridden method in the child object.
 
+</details>
+
 ---
 
 ### <ins>IF, CheckEqual, thenClause, elseClause</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `IF` construct in ScOOlang is used to run a block of code based on a `CheckEqual` condition.
@@ -972,9 +1054,13 @@ CheckEqual(i1: constructs, i2: constructs)
    + If the CheckEqual conditional construct evaluates to true, the thenClause associated with the IF construct will get executed.
    + If the CheckEqual conditional construct evaluates to false, the elseClause associated with the IF construct will get executed.
 
+</details>
+
 ---
 
 ### <ins>ExceptionClassDef, ThrowException</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 The `ExceptionClassDef` construct declares a user-defined exception class in ScOOlang. Once defined, this exception class can be used to throw custom exceptions using the `ThrowException` construct.
@@ -1030,9 +1116,13 @@ ThrowException(exClassName: String, reason: String)
    ThrowException("ExceptionClass1", "Check failed!").eval
    ```
 
+</details>
+
 ---
 
 ### <ins>HandleException, Try, Catch<ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 Handles exceptions (for a previously defined Exception Class) thrown within a `Try` block and specifies actions to take in case of an exception.
@@ -1086,9 +1176,13 @@ Defines a block of expressions to handle exceptions thrown by a ThrowException()
 ###### Signature
 `Catch(exprs: List[constructs])`
 
+</details>
+
 ---
 
 ### <ins>Map()</ins>
+<details>
+<summary>Click to expand</summary>
 
 ###### Description
 MAP() is a monadic function used to optimize boolean expressions by applying a transformer function to simplify them. It supports both partial and complete evaluation based on the transformer function and existing input values.
@@ -1132,6 +1226,8 @@ assert(x == AND(Input("A"), Value(true)))
 
    + MAP() facilitates the optimization of logical expressions by transforming them according to predefined rules, allowing for more efficient evaluation.
    + MAP() can also simplify LogicGate expressions within an IF() block by evaluating logical expression statements inside its thenClause() and elseClause().
+
+</details>
 
 ---
 
